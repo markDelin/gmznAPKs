@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Download | APK Galaxy</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --background: #121212;
+            --surface: #1E1E1E;
+            --text: #E0E0E0;
+            --text-secondary: #B0B0B0;
+            --accent: #fd79a8;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 4rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .version-carousel {
+            margin: 2rem 0;
+        }
+
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 1rem;
+            padding: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--surface);
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .carousel-container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .carousel-container::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        .version-card {
+            flex: 0 0 140px;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            scroll-snap-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .version-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, var(--surface), #2C2C2C);
+            border-color: rgba(108, 92, 231, 0.3);
+        }
+
+        .version-card.active {
+            background: var(--primary);
+            color: var(--background);
+            box-shadow: 0 0 0 3px var(--primary-dark);
+            border-color: transparent;
+        }
+
+        .version-card .version {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .version-card .date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .version-card.active .date {
+            color: rgba(0,0,0,0.7);
+        }
+
+        .download-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .download-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .download-content h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .app-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .badge-mod {
+            background: var(--accent);
+            color: white;
+        }
+
+        .badge-premium {
+            background: var(--warning);
+            color: var(--background);
+        }
+
+        .badge-cracked {
+            background: var(--danger);
+            color: white;
+        }
+        .badge-paid {
+          background: var(--success);
+          color: white;
+        }
+
+        .release-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .app-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .changelog {
+            background: rgba(255,255,255,0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--primary);
+        }
+
+        .changelog h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .changelog ul {
+            padding-left: 1.5rem;
+        }
+
+        .changelog li {
+            margin-bottom: 0.3rem;
+        }
+
+        .screenshots {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .screenshot {
+            height: 200px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.05);
+        }
+
+        .download-links {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 0.8rem;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .download-btn.primary:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
+        }
+
+        .download-btn.secondary {
+            background: var(--secondary);
+            color: var(--background);
+        }
+
+        .download-btn.secondary:hover {
+            background: #00b5b2;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 206, 201, 0.4);
+        }
+
+        .alert {
+            background: rgba(253, 121, 168, 0.1);
+            color: var(--accent);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .alert i {
+            font-size: 1.2rem;
+        }
+
+        .skeleton-loader {
+            display: block;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #2C2C2C 25%, #3C3C3C 50%, #2C2C2C 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .skeleton-title {
+            width: 70%;
+            height: 2.5rem;
+        }
+
+        .skeleton-text {
+            width: 100%;
+            height: 4rem;
+        }
+
+        .skeleton-button {
+            width: 50%;
+            height: 2.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: var(--surface);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        [data-animate] {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        [data-animate].is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .version-card {
+                flex: 0 0 120px;
+                padding: 0.8rem;
+            }
+
+            .download-links {
+                flex-direction: column;
+            }
+
+            .download-btn {
+                width: 100%;
+            }
+
+            .download-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .download-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="app-title">App Download</h1>
+            <p class="tagline" id="app-subtitle">Get the latest version</p>
+        </div>
+    </header>
+
+    <main>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+
+        <section class="download-card" id="download-info">
+            <div class="skeleton-loader" id="skeleton-loader">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-button"></div>
+            </div>
+            
+            <div class="download-content" id="download-content" style="display: none;">
+                <div class="app-meta">
+                    <span class="meta-item" id="app-type"></span>
+                    <span class="meta-item"><i class="fas fa-download"></i> <span id="download-count">10,000+</span> downloads</span>
+                    <span class="meta-item"><i class="fas fa-sd-card"></i> <span id="file-size">85 MB</span></span>
+                </div>
+                
+                <h2 id="version-title">App Name</h2>
+                <p class="release-date" id="version-date">Released: June 12, 2025</p>
+                
+                <p class="app-description" id="app-description">App description goes here with all the details about features and modifications.</p>
+                
+                <div class="version-carousel" id="version-carousel">
+                    <h3 class="section-title">Available Versions</h3>
+                    <div class="carousel-container" id="version-list">
+                        <!-- Versions will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="changelog" id="version-changelog">
+                    <h3>What's New</h3>
+                    <p id="changelog-text">Latest changes and updates for this version.</p>
+                </div>
+                
+                <div class="screenshots" id="screenshots">
+                    <!-- Screenshots will be loaded here -->
+                </div>
+                
+                <div class="download-links">
+                    <a href="#" class="download-btn primary" id="main-download" target="_blank">
+                        <i class="fas fa-download"></i> <span>Download APK</span>
+                    </a>
+                    <a href="#" class="download-btn secondary" id="mirror-download" target="_blank">
+                        <i class="fas fa-server"></i> <span>Mirror Link</span>
+                    </a>
+                </div>
+                
+                <div class="alert">
+                    <i class=""></i>
+                    <div>⚠️ Always scan APK files before installing. Download from trusted sources.</div>
+                </div>
+            </div>
+            
+            <div class="no-results" id="no-results" style="display: none;">
+                <h3>App Not Found</h3>
+                <p>The requested app could not be found.</p>
+                <a href="index.html" class="download-btn primary">Return to Home</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Created by <a href="https://github.com/gmzn_prg" target="_blank" rel="noopener">gmzn_prg</a></p>
+        <p class="disclaimer">Not affiliated with any app developers. For educational purposes only.</p>
+    </footer>
+
+    <script>
+        // Database of all apps
+        const appsDatabase = {
+            mcpe: {
+                title: "Minecraft ",
+                subtitle: "FREE",
+                type: "paid",
+                description: "Nothing here.",
+                versions: [
+                    { 
+                        version: "1.21.1", 
+                        releaseDate: "June 12, 2025", 
+                        changelog: "Nothing here.",
+                        apkLink: "#",
+                        mirrorLink: "#",
+                        fileSize: "0 MB",
+                        screenshots: [
+                            "screenshot/ss-mc.png",
+                            "screenshot/ss-mc.png",
+                            "screenshot/ss-mc.png",
+                            "screenshot/ss-mc.png",
+                            "screenshot/ss-mc.png"
+                        ]
+                    },
+                    { 
+                        version: "1.20.4", 
+                        releaseDate: "April 5, 2025", 
+                        changelog: "Nothing here.",
+                        apkLink: "#",
+                        mirrorLink: "#",
+                        fileSize: "0 MB"
+                    }
+                ],
+                downloadCount: "0"
+            },
+            
+        };
+
+        // DOM Elements
+        const appTitleEl = document.getElementById('app-title');
+        const appSubtitleEl = document.getElementById('app-subtitle');
+        const appTypeEl = document.getElementById('app-type');
+        const downloadCountEl = document.getElementById('download-count');
+        const fileSizeEl = document.getElementById('file-size');
+        const appDescriptionEl = document.getElementById('app-description');
+        const versionTitleEl = document.getElementById('version-title');
+        const versionDateEl = document.getElementById('version-date');
+        const changelogTextEl = document.getElementById('changelog-text');
+        const mainDownloadBtn = document.getElementById('main-download');
+        const mirrorDownloadBtn = document.getElementById('mirror-download');
+        const skeletonLoader = document.getElementById('skeleton-loader');
+        const downloadContent = document.getElementById('download-content');
+        const noResultsEl = document.getElementById('no-results');
+        const versionListEl = document.getElementById('version-list');
+        const screenshotsEl = document.getElementById('screenshots');
+        const versionCarouselEl = document.getElementById('version-carousel');
+
+        // Get app ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const appId = urlParams.get('app');
+        const appData = appsDatabase[appId];
+
+        // Display app data
+        function displayAppData() {
+            if (!appData) {
+                noResultsEl.style.display = 'block';
+                skeletonLoader.style.display = 'none';
+                return;
+            }
+
+            // Set basic app info
+            appTitleEl.textContent = appData.title;
+            appSubtitleEl.textContent = appData.subtitle;
+            appDescriptionEl.textContent = appData.description;
+            downloadCountEl.textContent = appData.downloadCount;
+
+            // Set app type badge
+            let badgeClass = '';
+            let badgeText = '';
+            switch(appData.type) {
+                case 'mod':
+                    badgeClass = 'badge-mod';
+                    badgeText = 'MOD';
+                    break;
+                case 'premium':
+                    badgeClass = 'badge-premium';
+                    badgeText = 'PREMIUM';
+                    break;
+                case 'cracked':
+                    badgeClass = 'badge-cracked';
+                    badgeText = 'CRACKED';
+                    break;
+                case 'paid':
+                  badgeClass = 'badge-paid';
+                  badgeText = 'PAID';
+                  break;
+            }
+            appTypeEl.innerHTML = `<span class="meta-badge ${badgeClass}">${badgeText}</span>`;
+
+            // Load latest version by default
+            const latestVersion = appData.versions[0];
+            loadVersionData(latestVersion);
+
+            // Display versions carousel if multiple versions exist
+            if (appData.versions.length > 1) {
+                displayVersions(appData.versions, latestVersion);
+            } else {
+                versionCarouselEl.style.display = 'none';
+            }
+
+            // Display screenshots if available
+            if (latestVersion.screenshots) {
+                displayScreenshots(latestVersion.screenshots);
+            } else {
+                screenshotsEl.style.display = 'none';
+            }
+
+            // Hide skeleton and show content
+            setTimeout(() => {
+                skeletonLoader.style.display = 'none';
+                downloadContent.style.display = 'block';
+            }, 500);
+        }
+
+        function loadVersionData(version) {
+            versionTitleEl.textContent = `${appData.title} ${version.version}`;
+            versionDateEl.textContent = `Released: ${version.releaseDate}`;
+            changelogTextEl.textContent = version.changelog;
+            mainDownloadBtn.href = version.apkLink;
+            mirrorDownloadBtn.href = version.mirrorLink;
+            fileSizeEl.textContent = version.fileSize;
+
+            // Update active version in carousel if it exists
+            document.querySelectorAll('.version-card').forEach(card => {
+                card.classList.remove('active');
+                if (card.querySelector('.version').textContent === version.version) {
+                    card.classList.add('active');
+                }
+            });
+        }
+
+        function displayVersions(versions, currentVersion) {
+            versionListEl.innerHTML = '';
+            
+            versions.forEach((ver, index) => {
+                const versionCard = document.createElement('div');
+                versionCard.className = `version-card ${ver.version === currentVersion.version ? 'active' : ''}`;
+                versionCard.style.setProperty('--index', index);
+                versionCard.innerHTML = `
+                    <div class="version">${ver.version}</div>
+                    <div class="date">${ver.releaseDate}</div>
+                `;
+                
+                versionCard.addEventListener('click', () => {
+                    loadVersionData(ver);
+                    
+                    // Update screenshots if available
+                    if (ver.screenshots) {
+                        screenshotsEl.style.display = 'flex';
+                        displayScreenshots(ver.screenshots);
+                    } else {
+                        screenshotsEl.style.display = 'none';
+                    }
+                });
+                
+                versionListEl.appendChild(versionCard);
+            });
+        }
+
+        function displayScreenshots(screenshotUrls) {
+            screenshotsEl.innerHTML = '';
+            screenshotUrls.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = `${appData.title} screenshot`;
+                img.className = 'screenshot';
+                screenshotsEl.appendChild(img);
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayAppData();
+            
+            // Intersection Observer for animations
+            const animateElements = document.querySelectorAll('[data-animate]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animateElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
