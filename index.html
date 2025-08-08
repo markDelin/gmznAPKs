@@ -139,10 +139,19 @@
         }
 
         .nav-logo {
+            display: flex;
+            align-items: center;
             font-weight: 700;
             font-size: 1.2rem;
             color: var(--primary);
             text-decoration: none;
+        }
+
+        .nav-logo-img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
         }
 
         .nav-links {
@@ -517,7 +526,10 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">gmznAPKs Galaxy</a>
+            <a href="index.html" class="nav-logo">
+                <img src="https://via.placeholder.com/24" alt="Logo" class="nav-logo-img">
+                gmznAPKs Galaxy
+            </a>
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
                 <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
@@ -660,17 +672,17 @@
                 addedDate: "2025-08-05"
             },
             spotify: {
-    id: "spotify",
-    title: "Spotify",
-    version: "v9.0.66.655",
-    type: "premium",
-    category: "apps",
-    description: "Stream millions of songs and podcasts with ad-free premium features and offline playback.",
-    image: "https://i.ibb.co/chMw5ZHD/07-Aug-2025-1.png",
-    isPopular: true,
-    isLatest: true,
-    addedDate: "2025-08-03"
-}
+                id: "spotify",
+                title: "Spotify",
+                version: "v9.0.66.655",
+                type: "premium",
+                category: "apps",
+                description: "Stream millions of songs and podcasts with ad-free premium features and offline playback.",
+                image: "https://i.ibb.co/chMw5ZHD/07-Aug-2025-1.png",
+                isPopular: true,
+                isLatest: true,
+                addedDate: "2025-08-03"
+            }
         };
 
         // DOM Elements
