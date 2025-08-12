@@ -4,25 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Discover premium and modded Android apps and games at gmznAPKs Galaxy.">
-    <meta name="keywords" content="APK download, modded apps, cracked apps, premium apps, Android games">
-    <meta name="robots" content="noindex, nofollow"> <!-- Prevent indexing for legal reasons -->
+    <meta name="keywords" content="APK download, modded apps, premium apps, Android games">
+    <meta property="og:title" content="gmznAPKs Mods | Premium Mods & Apps">
+    <meta property="og:description" content="Discover premium and modded Android apps and games at gmznAPKs Galaxy.">
+    <meta property="og:image" content="https://i.ibb.co/kCCJb8Y/08-Aug-2025-2.webp">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
     <title>gmznAPKs Mods | Premium Mods & Apps</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
-            --primary: #6c5ce7;
-            --primary-dark: #5649c0;
-            --secondary: #00cec9;
-            --background: #121212;
-            --surface: #1E1E1E;
-            --text: #E0E0E0;
-            --text-secondary: #B0B0B0;
-            --accent: #fd79a8;
-            --success: #00b894;
-            --warning: #fdcb6e;
-            --danger: #d63031;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #14b8a6;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
             --paid: var(--success);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -32,16 +39,17 @@
         }
 
         body {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--background);
             color: var(--text);
             font-size: 16px;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .hero {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 4rem 1rem;
+            padding: 5rem 1rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -54,61 +62,55 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
             z-index: 1;
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.75rem;
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: 1.125rem;
             font-weight: 400;
             color: var(--text);
-            opacity: 0.9;
+            opacity: 0.85;
         }
 
         .search-box {
-            margin-top: 1.5rem;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
             position: relative;
+            max-width: 600px;
+            margin: 1.5rem auto;
         }
 
-        .search-box input {
-            width: 100%;
-            padding: 0.8rem 1.2rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 25px;
-            background: rgba(255,255,255,0.1);
-            color: var(--text);
-            transition: all 0.3s ease;
-            padding-left: 2.5rem;
-        }
-
-        .search-box::before {
-            content: '\f002'; /* Font Awesome search icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
+        .search-icon {
             position: absolute;
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-secondary);
             opacity: 0.7;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            transition: var(--transition);
         }
 
         .search-box input::placeholder {
@@ -118,7 +120,7 @@
         .search-box input:focus {
             outline: none;
             background: rgba(255,255,255,0.15);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
         nav {
@@ -127,7 +129,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .nav-container {
@@ -142,17 +144,16 @@
             display: flex;
             align-items: center;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--primary);
             text-decoration: none;
         }
 
         .nav-logo-img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-            vertical-align: middle;
-            border-radius: 50%; /* Makes the logo circular */
+            width: 28px;
+            height: 28px;
+            margin-right: 0.5rem;
+            border-radius: 50%;
         }
 
         .nav-links {
@@ -164,7 +165,7 @@
             color: var(--text);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
 
         .nav-links a:hover, .nav-links a:focus {
@@ -188,7 +189,7 @@
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.75rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
             position: relative;
@@ -200,29 +201,59 @@
             position: absolute;
             bottom: -5px;
             left: 0;
-            width: 50px;
-            height: 3px;
+            width: 60px;
+            height: 4px;
             background: var(--primary);
-            border-radius: 3px;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sort-options label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .sort-options select {
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
         }
 
         .categories {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
             overflow-x: auto;
             padding: 0.5rem;
             scrollbar-width: thin;
             scrollbar-color: var(--primary) var(--surface);
+            -webkit-overflow-scrolling: touch;
         }
 
         .categories::-webkit-scrollbar {
-            height: 8px;
+            height: 6px;
         }
 
         .categories::-webkit-scrollbar-thumb {
             background: var(--primary);
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .categories::-webkit-scrollbar-track {
@@ -236,8 +267,9 @@
             border: 1px solid rgba(255,255,255,0.1);
             color: var(--text);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             white-space: nowrap;
+            font-size: 0.9rem;
         }
 
         .category-btn:hover, .category-btn:focus, .category-btn.active {
@@ -245,41 +277,44 @@
             color: white;
             border-color: transparent;
             outline: none;
+            transform: scale(1.05);
         }
 
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
 
         .app-card {
             background: var(--surface);
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: 1px solid rgba(255,255,255,0.05);
             position: relative;
             text-decoration: none;
             color: inherit;
+            will-change: transform, box-shadow;
         }
 
         .app-card:hover, .app-card:focus-within {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.25);
             border-color: var(--primary);
         }
 
         .app-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             color: white;
-            padding: 0.2rem 0.5rem;
+            padding: 0.25rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
+            text-transform: uppercase;
         }
 
         .app-badge.mod {
@@ -301,7 +336,7 @@
 
         .app-image {
             width: 100%;
-            height: 150px;
+            height: 160px;
             object-fit: cover;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
@@ -313,20 +348,21 @@
         .app-title {
             font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.4rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .app-version {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
         }
 
         .app-description {
             font-size: 0.9rem;
+            color: var(--text-secondary);
             margin-bottom: 1rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -343,11 +379,12 @@
             text-align: center;
             border-radius: 6px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .app-card:hover .app-download-btn, .app-card:focus-within .app-download-btn {
             background: var(--primary-dark);
+            transform: scale(1.02);
         }
 
         .pagination {
@@ -364,7 +401,7 @@
             color: var(--text);
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .page-btn:hover, .page-btn:focus {
@@ -380,6 +417,22 @@
             border-color: transparent;
         }
 
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .loading i {
+            margin-right: 0.5rem;
+        }
+
         footer {
             background: var(--surface);
             color: var(--text-secondary);
@@ -392,14 +445,14 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 2rem;
         }
 
         .footer-col h3 {
             color: var(--primary);
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .footer-col ul {
@@ -413,7 +466,7 @@
         .footer-col a {
             color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
 
         .footer-col a:hover, .footer-col a:focus {
@@ -429,13 +482,14 @@
 
         .social-links a {
             color: var(--text);
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
+            font-size: 1.25rem;
+            transition: var(--transition);
         }
 
         .social-links a:hover, .social-links a:focus {
             color: var(--primary);
             outline: none;
+            transform: scale(1.1);
         }
 
         .copyright {
@@ -443,7 +497,7 @@
             margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .copyright a {
@@ -452,14 +506,13 @@
         }
 
         .disclaimer {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(214, 48, 49, 0.1);
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 3px solid var(--danger);
-            margin-top: 2rem;
-            font-size: 0.8rem;
+            max-width: 900px;
+            margin: 2rem auto;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--danger);
+            font-size: 0.85rem;
         }
 
         .no-results {
@@ -467,6 +520,25 @@
             padding: 2rem;
             color: var(--text-secondary);
             display: none;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        @media (prefers-contrast: high) {
+            :root {
+                --background: #000;
+                --text: #fff;
+                --surface: #333;
+            }
         }
 
         @media (max-width: 768px) {
@@ -491,17 +563,26 @@
             }
 
             .apps-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             }
 
             h1 {
                 font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
             }
         }
 
         @media (max-width: 480px) {
             .apps-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 3rem 1rem;
             }
         }
 
@@ -510,6 +591,7 @@
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
         }
 
         [data-animate].is-visible {
@@ -517,27 +599,30 @@
             transform: translateY(0);
         }
 
-        /* Fallback font */
-        @font-face {
-            font-family: 'Fallback';
-            src: local('Arial'), local('Helvetica');
+        .app-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <nav>
+    <nav aria-label="Main navigation">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="https://i.ibb.co/kCCJb8Y/08-Aug-2025-2.png" alt="Logo" class="nav-logo-img">
-                gmznAPK Mods
+                <img src="https://i.ibb.co/kCCJb8Y/08-Aug-2025-2.webp" alt="gmznAPKs Mods logo" class="nav-logo-img" loading="lazy">
+                gmznAPKs Mods
             </a>
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
                 <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             <div class="nav-links" id="nav-links">
                 <a href="index.html">Home</a>
-                <a href="category.html?type=games">Games</a>
-                <a href="category.html?type=apps">Apps</a>
+                <a href="#?type=games">Games</a>
+                <a href="#"?type=apps">Apps</a>
                 <a href="#">Requests</a>
                 <a href="#">About</a>
             </div>
@@ -546,9 +631,11 @@
 
     <header class="hero">
         <div class="hero-content">
-            <h1>Premium Apps & Games</h1>
-            <p class="tagline">Discover the latest modded and premium Android apps</p>
-            <div class="search-box">
+            <h1 data-animate>Premium Apps & Games</h1>
+            <p class="tagline" data-animate>Discover the latest modded and premium Android apps</p>
+            <div class="search-box" data-animate>
+                <label for="app-search" class="visually-hidden">Search for apps and games</label>
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
                 <input type="text" id="app-search" placeholder="Search apps or games..." aria-label="Search for apps and games">
             </div>
         </div>
@@ -557,15 +644,28 @@
     <main>
         <section data-animate>
             <h2 class="section-title">Featured Apps</h2>
-            <div class="categories">
-                <button class="category-btn active" data-category="all">All</button>
-                <button class="category-btn" data-category="games">Games</button>
-                <button class="category-btn" data-category="apps">Apps</button>
-                <button class="category-btn" data-category="premium">Premium</button>
-                <button class="category-btn" data-category="cracked">Cracked</button>
-                <button class="category-btn" data-category="mod">Modded</button>
-                <button class="category-btn" data-category="latest">Latest</button>
-                <button class="category-btn" data-category="popular">Popular</button>
+            <div class="controls">
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="games">Games</button>
+                    <button class="category-btn" data-category="apps">Apps</button>
+                    <button class="category-btn" data-category="premium">Premium</button>
+                    <button class="category-btn" data-category="cracked">Cracked</button>
+                    <button class="category-btn" data-category="mod">Modded</button>
+                    <button class="category-btn" data-category="latest">Latest</button>
+                    <button class="category-btn" data-category="popular">Popular</button>
+                </div>
+                <div class="sort-options">
+                    <label for="sort">Sort by:</label>
+                    <select id="sort">
+                        <option value="title">Alphabetical</option>
+                        <option value="addedDate">Newest</option>
+                        <option value="popular">Popular</option>
+                    </select>
+                </div>
+            </div>
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading...
             </div>
             <div class="no-results" id="no-results">
                 <h3>No Apps Found</h3>
@@ -596,7 +696,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-col">
-                <h3>gmznAPK Mods</h3>
+                <h3>gmznAPKs Mods</h3>
                 <p>Your source for premium and modded Android apps and games. Always verify APK files for safety.</p>
                 <div class="social-links">
                     <a href="https://t.me/gmznAPKs" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><i class="fab fa-telegram" aria-hidden="true"></i></a>
@@ -609,10 +709,10 @@
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="category.html?type=games">Games</a></li>
-                    <li><a href="category.html?type=apps">Apps</a></li>
-                    <li><a href="requests.html">Requests</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href=#?type=games">Games</a></li>
+                    <li><a href="#?type=apps">Apps</a></li>
+                    <li><a href="#">Requests</a></li>
+                    <li><a href="#">FAQ</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -641,12 +741,12 @@
         </div>
 
         <div class="copyright">
-            <p>&copy; 2025 gmznAPK Mods. All Rights Reserved. | Created by <a href="https://github.com/markDelin" target="_blank" rel="noopener">gmzn_prg</a></p>
+            <p>&copy; 2025 gmznAPKs Mods. All Rights Reserved. | Created by <a href="https://github.com/markDelin" target="_blank" rel="noopener">gmzn_prg</a></p>
         </div>
     </footer>
 
     <script>
-        // App database
+        // Sample apps data (ideally loaded from apps.json)
         const appsDatabase = {
             mcpe: {
                 id: "mcpe",
@@ -655,7 +755,7 @@
                 type: "paid",
                 category: "games",
                 description: "Explore infinite worlds and build everything from simple homes to grand castles. Play in Creative or Survival mode.",
-                image: "banner/mc.png",
+                image:"banner/mc.png",
                 isPopular: true,
                 isLatest: true,
                 addedDate: "2025-07-31"
@@ -684,18 +784,18 @@
                 isLatest: true,
                 addedDate: "2025-08-03"
             },
-	tiktok: {
-    id: "tiktok",
-    title: "Tiktok",
-    version: "",
-    type: "premium",
-    category: "apps",
-    description: "",
-    image: "",
-    isPopular: true,
-    isLatest: true,
-    addedDate: "2025-08-11"
-}
+            tiktok: {
+                id: "tiktok",
+                title: "TikTok",
+                version: "v35.0.1",
+                type: "premium",
+                category: "apps",
+                description: "Create and share short videos with music, effects, and filters.",
+                image: "https://i.ibb.co/example/tiktok.webp",
+                isPopular: true,
+                isLatest: true,
+                addedDate: "2025-08-11"
+            }
         };
 
         // DOM Elements
@@ -704,8 +804,10 @@
             navLinks: document.getElementById('nav-links'),
             appSearch: document.getElementById('app-search'),
             categoryButtons: document.querySelectorAll('.category-btn'),
+            sortSelect: document.getElementById('sort'),
             appsGrid: document.getElementById('apps-grid'),
             noResults: document.getElementById('no-results'),
+            loading: document.getElementById('loading'),
             pagination: document.getElementById('pagination'),
             recentlyAddedGrid: document.getElementById('recently-added-grid'),
             recentNoResults: document.getElementById('recent-no-results')
@@ -715,6 +817,7 @@
         const itemsPerPage = 8;
         let currentPage = 1;
         let currentCategory = 'all';
+        let currentSort = 'title';
 
         // Mobile menu toggle
         elements.mobileMenuBtn.addEventListener('click', () => {
@@ -722,7 +825,6 @@
             elements.mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
         });
 
-        // Close mobile menu when a link is clicked
         elements.navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 elements.navLinks.classList.remove('active');
@@ -731,15 +833,25 @@
         });
 
         // Search functionality with debouncing
-        let searchTimeout;
-        elements.appSearch.addEventListener('input', () => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const searchTerm = elements.appSearch.value.toLowerCase().trim();
-                currentPage = 1;
-                displayApps(searchTerm, currentCategory, currentPage);
-            }, 300);
-        });
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedSearch = debounce(() => {
+            const searchTerm = elements.appSearch.value.toLowerCase().trim(); // Sanitize if using DOMPurify
+            currentPage = 1;
+            displayApps(searchTerm, currentCategory, currentSort, currentPage);
+        }, 300);
+
+        elements.appSearch.addEventListener('input', debouncedSearch);
 
         // Category filter
         elements.categoryButtons.forEach(btn => {
@@ -748,7 +860,7 @@
                 btn.classList.add('active');
                 currentCategory = btn.dataset.category;
                 currentPage = 1;
-                displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentPage);
+                displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
             });
             btn.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -756,6 +868,13 @@
                     btn.click();
                 }
             });
+        });
+
+        // Sort functionality
+        elements.sortSelect.addEventListener('change', () => {
+            currentSort = elements.sortSelect.value;
+            currentPage = 1;
+            displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
         });
 
         // Pagination
@@ -766,14 +885,18 @@
             const pageButtons = Array.from(elements.pagination.children).slice(1, -1);
             pageButtons.forEach(btn => btn.remove());
 
-            for (let i = 1; i <= pageCount; i++) {
+            const maxButtons = 5;
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(pageCount, startPage + maxButtons - 1);
+
+            for (let i = startPage; i <= endPage; i++) {
                 const btn = document.createElement('button');
                 btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
                 btn.textContent = i;
                 btn.setAttribute('aria-label', `Page ${i}`);
                 btn.addEventListener('click', () => {
                     currentPage = i;
-                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentPage);
+                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
                 });
                 btn.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -789,22 +912,44 @@
             prevBtn.addEventListener('click', () => {
                 if (currentPage > 1) {
                     currentPage--;
-                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentPage);
+                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
                 }
             });
             nextBtn.addEventListener('click', () => {
                 if (currentPage < pageCount) {
                     currentPage++;
-                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentPage);
+                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                }
+            });
+            prevBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                    }
+                }
+            });
+            nextBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (currentPage < pageCount) {
+                        currentPage++;
+                        displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                    }
                 }
             });
         }
 
         // Display apps
-        function displayApps(searchTerm = '', category = 'all', page = 1) {
-            const filteredApps = Object.values(appsDatabase).filter(app => {
+        function displayApps(searchTerm = '', category = 'all', sort = 'title', page = 1) {
+            elements.appsGrid.innerHTML = '';
+            elements.loading.style.display = 'block';
+
+            let filteredApps = Object.values(appsDatabase).filter(app => {
+                if (!app.title || !app.description || !app.image) return false; // Skip incomplete entries
                 const matchesSearch = app.title.toLowerCase().includes(searchTerm) || 
-                                    app.description.toLowerCase().includes(searchTerm);
+                                     app.description.toLowerCase().includes(searchTerm);
                 const matchesCategory = category === 'all' || 
                                       (category === 'games' && app.category === 'games') ||
                                       (category === 'apps' && app.category === 'apps') ||
@@ -814,67 +959,106 @@
                 return matchesSearch && matchesCategory;
             });
 
-            elements.noResults.style.display = filteredApps.length ? 'none' : 'block';
-            elements.appsGrid.innerHTML = '';
-
-            const start = (page - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const paginatedApps = filteredApps.slice(start, end);
-
-            paginatedApps.forEach(app => {
-                const card = document.createElement('a');
-                card.href = `download.html?app=${app.id}`;
-                card.className = 'app-card';
-                card.setAttribute('tabindex', '0');
-                card.innerHTML = `
-                    <span class="app-badge ${app.type}">${app.type.toUpperCase()}</span>
-                    <img src="${app.image}" alt="${app.title} banner" class="app-image" loading="lazy">
-                    <div class="app-info">
-                        <h3 class="app-title">${app.title}</h3>
-                        <p class="app-version">${app.version}</p>
-                        <p class="app-description">${app.description}</p>
-                        <div class="app-download-btn">View Details</div>
-                    </div>
-                `;
-                elements.appsGrid.appendChild(card);
+            // Sort apps
+            filteredApps.sort((a, b) => {
+                if (sort === 'title') return a.title.localeCompare(b.title);
+                if (sort === 'addedDate') return new Date(b.addedDate) - new Date(a.addedDate);
+                if (sort === 'popular') return b.isPopular - a.isPopular;
+                return 0;
             });
 
-            setupPagination(filteredApps.length);
+            setTimeout(() => {
+                elements.loading.style.display = 'none';
+                elements.noResults.style.display = filteredApps.length ? 'none' : 'block';
+
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedApps = filteredApps.slice(start, end);
+
+                paginatedApps.forEach((app, index) => {
+                    const imageSrc = app.image || 'https://i.ibb.co/fallback-image.webp';
+                    const card = document.createElement('article');
+                    card.className = 'app-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.setAttribute('tabindex', '0');
+                    card.innerHTML = `
+                        <a href="download.html?app=${app.id}">
+                            <span class="app-badge ${app.type}">${app.type.toUpperCase()}</span>
+                            <img src="${imageSrc}" alt="${app.title} banner" class="app-image" loading="lazy" onerror="this.src='https://i.ibb.co/fallback-image.webp'">
+                            <div class="app-info">
+                                <h3 class="app-title">${app.title}</h3>
+                                <p class="app-version">${app.version}</p>
+                                <p class="app-description">${app.description}</p>
+                                <div class="app-download-btn">View Details</div>
+                            </div>
+                        </a>
+                    `;
+                    elements.appsGrid.appendChild(card);
+                });
+
+                setupPagination(filteredApps.length);
+                updateCategoryCounts();
+            }, 300);
         }
 
         // Display recently added apps
         function displayRecentlyAdded() {
             const recentApps = Object.values(appsDatabase)
-                .filter(app => app.isLatest)
+                .filter(app => app.isLatest && app.title && app.description && app.image)
                 .sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate))
                 .slice(0, 4);
 
             elements.recentNoResults.style.display = recentApps.length ? 'none' : 'block';
             elements.recentlyAddedGrid.innerHTML = '';
 
-            recentApps.forEach(app => {
-                const card = document.createElement('a');
-                card.href = `download.html?app=${app.id}`;
+            recentApps.forEach((app, index) => {
+                const imageSrc = app.image || 'https://i.ibb.co/fallback-image.webp';
+                const card = document.createElement('article');
                 card.className = 'app-card';
+                card.style.animationDelay = `${index * 0.1}s`;
                 card.setAttribute('tabindex', '0');
                 card.innerHTML = `
-                    <span class="app-badge ${app.type}">${app.type.toUpperCase()}</span>
-                    <img src="${app.image}" alt="${app.title} banner" class="app-image" loading="lazy">
-                    <div class="app-info">
-                        <h3 class="app-title">${app.title}</h3>
-                        <p class="app-version">${app.version}</p>
-                        <p class="app-description">${app.description}</p>
-                        <div class="app-download-btn">View Details</div>
-                    </div>
+                    <a href="download.html?app=${app.id}">
+                        <span class="app-badge ${app.type}">${app.type.toUpperCase()}</span>
+                        <img src="${imageSrc}" alt="${app.title} banner" class="app-image" loading="lazy" onerror="this.src='https://i.ibb.co/fallback-image.webp'">
+                        <div class="app-info">
+                            <h3 class="app-title">${app.title}</h3>
+                            <p class="app-version">${app.version}</p>
+                            <p class="app-description">${app.description}</p>
+                            <div class="app-download-btn">View Details</div>
+                        </div>
+                    </a>
                 `;
                 elements.recentlyAddedGrid.appendChild(card);
             });
         }
 
+        // Update category counts
+        function updateCategoryCounts() {
+            elements.categoryButtons.forEach(btn => {
+                const category = btn.dataset.category;
+                const count = Object.values(appsDatabase).filter(app => 
+                    app.title && app.description && app.image && (
+                        category === 'all' || 
+                        (category === 'games' && app.category === 'games') ||
+                        (category === 'apps' && app.category === 'apps') ||
+                        (category === app.type) ||
+                        (category === 'latest' && app.isLatest) ||
+                        (category === 'popular' && app.isPopular)
+                    )
+                ).length;
+                btn.textContent = `${category.charAt(0).toUpperCase() + category.slice(1)} (${count})`;
+            });
+        }
+
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
-            displayApps('', 'all', 1);
-            displayRecentlyAdded();
+            // Simulate async data loading
+            setTimeout(() => {
+                displayApps('', 'all', 'title', 1);
+                displayRecentlyAdded();
+                updateCategoryCounts();
+            }, 100);
 
             // Intersection Observer for animations
             const animateElements = document.querySelectorAll('[data-animate]');
@@ -882,6 +1066,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.1 });
