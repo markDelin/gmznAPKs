@@ -1,1 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover premium and modded Android apps and games at gmznAPKs Galaxy.">
+    <meta name="keywords" content="APK download, modded apps, premium apps, Android games">
+    <meta property="og:title" content="gmznAPKs Mods | Premium Mods & Apps">
+    <meta property="og:description" content="Discover premium and modded Android apps and games at gmznAPKs Galaxy.">
+    <meta property="og:image" content="https://i.ibb.co/kCCJb8Y/08-Aug-2025-2.webp">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>gmznAPKs Mods | Premium Mods & Apps</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --background: #0f172a;
+            --surface: rgba(30, 41, 59, 0.8);
+            --text: #f1f5f9;
+            --text-secondary: #d1e2f0;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --paid: var(--success);
+            --border-radius: 30px;
+            --transition: all 0.2s ease;
+            --glass-blur: 6px;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.35);
+            --glass-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --focus-ring: 0 0 0 5px rgba(99, 102, 241, 0.4);
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 3.5rem 1.2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 960px;
+            margin: 0 auto;
+            backdrop-filter: blur(var(--glass-blur));
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            border: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 740px;
+            margin: 1.8rem auto;
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            border: var(--glass-border);
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition);
+        }
+
+        .search-box:hover, .search-box:focus-within {
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1.3rem 1.3rem 1.3rem 4rem;
+            font-size: 1.15rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background: transparent;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            box-shadow: var(--focus-ring);
+        }
+
+        nav {
+            background: var(--surface);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(var(--glass-blur));
+            border-bottom: var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .nav-container {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-logo-img {
+            width: 34px;
+            height: 34px;
+            margin-right: 0.7rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .nav-logo:hover .nav-logo-img {
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.4rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.15rem;
+            padding: 0.6rem 1.3rem;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links a:focus, .nav-links a[aria-current="page"] {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            transform: scale(1.05);
+            outline: none;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover, .mobile-menu-btn:focus {
+            color: var(--primary);
+        }
+
+        main {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .sort-options label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .sort-options select {
+            padding: 0.7rem 1.3rem;
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text);
+            border: var(--glass-border);
+            cursor: pointer;
+            backdrop-filter: blur(var(--glass-blur));
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .sort-options select:hover, .sort-options select:focus {
+            box-shadow: var(--focus-ring);
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.7rem;
+            margin-bottom: 1.2rem;
+            overflow-x: auto;
+            padding: 0.7rem 0;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 14px;
+            background: var(--surface);
+            border: var(--glass-border);
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-size: 0.95rem;
+            font-weight: 500;
+            backdrop-filter: blur(var(--glass-blur));
+        }
+
+        .category-btn:hover, .category-btn:focus, .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--focus-ring);
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.2rem;
+            margin: 1.8rem 0;
+        }
+
+        .app-card {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: var(--glass-border);
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition);
+        }
+
+        .app-card:hover, .app-card:focus-within {
+            transform: scale(1.02);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .app-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            backdrop-filter: blur(3px);
+        }
+
+        .app-badge.mod {
+            background: var(--accent);
+        }
+
+        .app-badge.premium {
+            background: var(--warning);
+            color: var(--background);
+        }
+
+        .app-badge.cracked {
+            background: var(--danger);
+        }
+
+        .app-badge.paid {
+            background: var(--paid);
+        }
+
+        .app-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: var(--glass-border);
+        }
+
+        .app-info {
+            padding: 1rem;
+        }
+
+        .app-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-version {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .app-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .app-download-btn {
+            display: block;
+            width: 100%;
+            padding: 0.7rem;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .app-download-btn:hover, .app-download-btn:focus {
+            background: var(--primary-dark);
+            box-shadow: var(--focus-ring);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.8rem 0;
+        }
+
+        .page-btn {
+            padding: 0.7rem 1.3rem;
+            background: var(--surface);
+            border: var(--glass-border);
+            color: var(--text);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(var(--glass-blur));
+            font-size: 0.9rem;
+        }
+
+        .page-btn:hover, .page-btn:focus {
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--focus-ring);
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: transparent;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 1.8rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .loading i {
+            margin-right: 0.5rem;
+        }
+
+        footer {
+            background: var(--surface);
+            color: var(--text-secondary);
+            padding: 2.5rem 1rem;
+            margin-top: 2.5rem;
+            border-top: var(--glass-border);
+            backdrop-filter: blur(var(--glass-blur));
+        }
+
+        .footer-container {
+            max-width: 960px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .footer-col h3 {
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-col a:hover, .footer-col a:focus {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.2);
+            transform: scale(1.05);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover, .social-links a:focus {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 1.8rem;
+            padding-top: 1.2rem;
+            border-top: var(--glass-border);
+            font-size: 0.9rem;
+        }
+
+        .copyright a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .copyright a:hover, .copyright a:focus {
+            background: rgba(99, 102, 241, 0.2);
+            transform: scale(1.05);
+        }
+
+        .disclaimer {
+            max-width: 960px;
+            margin: 1.8rem auto;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 1.2rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--danger);
+            font-size: 0.9rem;
+            backdrop-filter: blur(var(--glass-blur));
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 1.8rem;
+            color: var(--text-secondary);
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            border: var(--glass-border);
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 1.2rem;
+            right: 1.2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: var(--glass-shadow);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover, .back-to-top:focus {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        @media (prefers-contrast: high) {
+            :root {
+                --background: #000;
+                --text: #fff;
+                --surface: rgba(51, 51, 51, 0.85);
+                --text-secondary: #e8e8e8;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 1rem;
+                backdrop-filter: blur(var(--glass-blur));
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .apps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .hero-content {
+                padding: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .apps-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 2.5rem 0.8rem;
+            }
+
+            .category-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" aria-current="page">
+                <img src="https://i.ibb.co/kVwXyHms/Picsart-25-09-16-20-09-29-786-074713.webp" alt="gmznAPKs Mods logo" class="nav-logo-img" loading="lazy">
+                gmznAPKs Mods
+            </a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" aria-current="page">Home</a>
+                <a href="#">Games</a>
+                <a href="#">Apps</a>
+                <a href="#">Requests</a>
+                <a href="#">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Premium Apps & Games</h1>
+            <p class="tagline">Discover premium and modded Android apps and games</p>
+            <div class="search-box">
+                <label for="app-search" class="visually-hidden">Search for apps and games</label>
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input type="text" id="app-search" placeholder="Search apps or games..." aria-label="Search for apps and games">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2 class="section-title">Featured Apps</h2>
+            <div class="controls">
+                <div class="categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="games">Games</button>
+                    <button class="category-btn" data-category="apps">Apps</button>
+                    <button class="category-btn" data-category="premium">Premium</button>
+                    <button class="category-btn" data-category="mod">Modded</button>
+                </div>
+                <div class="sort-options">
+                    <label for="sort">Sort by:</label>
+                    <select id="sort">
+                        <option value="title">Alphabetical</option>
+                        <option value="addedDate">Newest</option>
+                        <option value="popular">Popular</option>
+                    </select>
+                </div>
+            </div>
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Loading...
+            </div>
+            <div class="no-results" id="no-results">
+                <h3>No Apps Found</h3>
+                <p>Try a different search term or category.</p>
+            </div>
+            <div class="apps-grid" id="apps-grid">
+                <!-- Apps will be loaded dynamically -->
+            </div>
+            <div class="pagination" id="pagination">
+                <button class="page-btn" data-page="prev" aria-label="Previous page"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                <!-- Page buttons will be loaded dynamically -->
+                <button class="page-btn" data-page="next" aria-label="Next page"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>gmznAPKs Mods</h3>
+                <p>Your trusted source for premium and modded Android apps and games. Always verify APK files for safety.</p>
+
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Games</a></li>
+                    <li><a href="#">Apps</a></li>
+                    <li><a href="#">Requests</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">DMCA</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <p><strong>Disclaimer:</strong> All apps and games are owned by their respective developers. We do not host files on our servers; they are provided by third-party services. Downloading modified or cracked apps may violate copyright laws in your region. Use at your own risk and always scan files for safety.</p>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2025 gmznAPKs Mods. All Rights Reserved.</p> 
+            <p>Created by <a href="#" target="_blank" rel="noopener">gmzn_prg</a></p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
+    </button>
+
+    <script>
+        // Sample apps data
+        const appsDatabase = {
+            mcpe: {
+                id: "mcpe",
+                title: "Minecraft",
+                version: "v1.21.1",
+                type: "paid",
+                category: "games",
+                description: "Explore infinite worlds and build everything from homes to castles in Creative or Survival mode.",
+                image: "https://i.ibb.co/QvfgpBTC/628f0e11-f707-45e6-963d-3f5af98e8f0a.webp",
+                isPopular: true,
+                isLatest: true,
+                addedDate: "2025-07-31"
+            },
+
+        };
+
+        // DOM Elements
+        const elements = {
+            mobileMenuBtn: document.getElementById('mobile-menu-btn'),
+            navLinks: document.getElementById('nav-links'),
+            navContainer: document.querySelector('.nav-container'),
+            appSearch: document.getElementById('app-search'),
+            categoryButtons: document.querySelectorAll('.category-btn'),
+            sortSelect: document.getElementById('sort'),
+            appsGrid: document.getElementById('apps-grid'),
+            noResults: document.getElementById('no-results'),
+            loading: document.getElementById('loading'),
+            pagination: document.getElementById('pagination'),
+            backToTop: document.getElementById('back-to-top')
+        };
+
+        // Pagination settings
+        const itemsPerPage = 8;
+        let currentPage = 1;
+        let currentCategory = 'all';
+        let currentSort = 'title';
+
+        // Mobile menu toggle
+        elements.mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = elements.navLinks.classList.toggle('active');
+            elements.mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
+            elements.mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+            elements.mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        elements.navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                elements.navLinks.classList.remove('active');
+                elements.mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                elements.mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                elements.mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+            });
+        });
+
+        // Search functionality with debouncing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedSearch = debounce(() => {
+            const searchTerm = elements.appSearch.value.toLowerCase().trim();
+            currentPage = 1;
+            displayApps(searchTerm, currentCategory, currentSort, currentPage);
+        }, 200);
+
+        elements.appSearch.addEventListener('input', debouncedSearch);
+
+        // Category filter
+        elements.categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                elements.categoryButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                currentPage = 1;
+                displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+            });
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    btn.click();
+                }
+            });
+        });
+
+        // Sort functionality
+        elements.sortSelect.addEventListener('change', () => {
+            currentSort = elements.sortSelect.value;
+            currentPage = 1;
+            displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+        });
+
+        // Pagination
+        function setupPagination(totalItems) {
+            const pageCount = Math.ceil(totalItems / itemsPerPage);
+            const prevBtn = elements.pagination.querySelector('[data-page="prev"]');
+            const nextBtn = elements.pagination.querySelector('[data-page="next"]');
+            const pageButtons = Array.from(elements.pagination.children).slice(1, -1);
+            pageButtons.forEach(btn => btn.remove());
+
+            const maxButtons = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            let endPage = Math.min(pageCount, startPage + maxButtons - 1);
+            if (endPage - startPage + 1 < maxButtons) {
+                startPage = Math.max(1, endPage - maxButtons + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.setAttribute('aria-label', `Page ${i}`);
+                btn.addEventListener('click', () => {
+                    currentPage = i;
+                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                });
+                btn.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        btn.click();
+                    }
+                });
+                elements.pagination.insertBefore(btn, nextBtn);
+            }
+
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === pageCount;
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                }
+            });
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < pageCount) {
+                    currentPage++;
+                    displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                }
+            });
+            prevBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                    }
+                }
+            });
+            nextBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (currentPage < pageCount) {
+                        currentPage++;
+                        displayApps(elements.appSearch.value.toLowerCase().trim(), currentCategory, currentSort, currentPage);
+                    }
+                }
+            });
+        }
+
+        // Display apps
+        function displayApps(searchTerm = '', category = 'all', sort = 'title', page = 1) {
+            elements.appsGrid.innerHTML = '';
+            elements.loading.style.display = 'block';
+
+            let filteredApps = Object.values(appsDatabase).filter(app => {
+                if (!app.title || !app.description || !app.image) return false;
+                const matchesSearch = app.title.toLowerCase().includes(searchTerm) || 
+                                      app.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = category === 'all' || 
+                                        (category === 'games' && app.category === 'games') ||
+                                        (category === 'apps' && app.category === 'apps') ||
+                                        (category === app.type);
+                return matchesSearch && matchesCategory;
+            });
+
+            filteredApps.sort((a, b) => {
+                if (sort === 'title') return a.title.localeCompare(b.title);
+                if (sort === 'addedDate') return new Date(b.addedDate) - new Date(a.addedDate);
+                if (sort === 'popular') return (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0);
+                return 0;
+            });
+
+            setTimeout(() => {
+                elements.loading.style.display = 'none';
+                elements.noResults.style.display = filteredApps.length ? 'none' : 'block';
+
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedApps = filteredApps.slice(start, end);
+
+                paginatedApps.forEach(app => {
+                    const imageSrc = app.image || 'https://i.ibb.co/fallback-image.webp';
+                    const card = document.createElement('article');
+                    card.className = 'app-card';
+                    card.setAttribute('tabindex', '0');
+                    card.setAttribute('role', 'link');
+                    card.innerHTML = `
+                        <a href="download.html?app=${app.id}" aria-label="View details for ${app.title}">
+                            <span class="app-badge ${app.type}">${app.type.toUpperCase()}</span>
+                            <img src="${imageSrc}" alt="${app.title} banner" class="app-image" loading="lazy" onerror="this.src='https://i.ibb.co/fallback-image.webp'">
+                            <div class="app-info">
+                                <h3 class="app-title">${app.title}</h3>
+                                <p class="app-version">${app.version}</p>
+                                <p class="app-description">${app.description}</p>
+                                <div class="app-download-btn">View Details</div>
+                            </div>
+                        </a>
+                    `;
+                    elements.appsGrid.appendChild(card);
+                });
+
+                setupPagination(filteredApps.length);
+                updateCategoryCounts();
+            }, 100);
+        }
+
+        // Update category counts
+        function updateCategoryCounts() {
+            elements.categoryButtons.forEach(btn => {
+                const category = btn.dataset.category;
+                const count = Object.values(appsDatabase).filter(app => 
+                    app.title && app.description && app.image && (
+                        category === 'all' || 
+                        (category === 'games' && app.category === 'games') ||
+                        (category === 'apps' && app.category === 'apps') ||
+                        (category === app.type)
+                    )
+                ).length;
+                btn.textContent = `${category.charAt(0).toUpperCase() + category.slice(1)} (${count})`;
+            });
+        }
+
+        // Back to top functionality
+        elements.backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            elements.backToTop.classList.toggle('visible', window.scrollY > 300);
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            elements.mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+            displayApps('', 'all', 'title', 1);
+            updateCategoryCounts();
+
+            document.addEventListener('click', (e) => {
+                if (!elements.navContainer.contains(e.target) && elements.navLinks.classList.contains('active')) {
+                    elements.navLinks.classList.remove('active');
+                    elements.mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    elements.mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                    elements.mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
