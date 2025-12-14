@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Package, X, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Package, X, Loader2, Edit2, Upload } from 'lucide-react';
 
 interface AppData {
   id: number;
@@ -11,12 +11,14 @@ interface AppData {
   category: string;
   download_url: string;
   icon_url?: string;
+  whats_new?: string;
 }
 
 export default function Dashboard() {
   const [apps, setApps] = useState<AppData[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [newItem, setNewItem] = useState<Partial<AppData>>({ category: 'Utility' });
   const navigate = useNavigate();
 
@@ -45,13 +47,26 @@ export default function Dashboard() {
     fetchApps();
   }, [navigate]);
 
-  const handleAdd = async (e: React.FormEvent) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewItem(prev => ({ ...prev, icon_url: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newItem.name || !newItem.download_url) return;
 
+    const method = isEditMode ? 'PUT' : 'POST';
+    
     try {
       const res = await fetch('/.netlify/functions/manage-app', {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
           'x-admin-password': getPassword() || '',
@@ -62,13 +77,20 @@ export default function Dashboard() {
       if (res.ok) {
         setIsModalOpen(false);
         setNewItem({ category: 'Utility' });
-        fetchApps(); // Refresh list
+        setIsEditMode(false);
+        fetchApps();
       } else {
-        alert('Failed to add app. Check password.');
+        alert('Failed to save app. Check password.');
       }
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleEdit = (app: AppData) => {
+    setNewItem(app);
+    setIsEditMode(true);
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -98,7 +120,11 @@ export default function Dashboard() {
           <p className="text-slate-400">Manage your APK library.</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setNewItem({ category: 'Utility' });
+            setIsEditMode(false);
+            setIsModalOpen(true);
+          }}
           className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-colors font-medium cursor-pointer shadow-lg shadow-indigo-500/20"
         >
           <Plus className="w-5 h-5" />
@@ -124,8 +150,8 @@ export default function Dashboard() {
               className="grid grid-cols-12 gap-4 p-4 items-center hover:bg-white/5 transition-colors"
             >
               <div className="col-span-5 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 shrink-0">
-                  {app.icon_url && app.icon_url.length < 5 ? app.icon_url : <Package className="w-5 h-5" />}
+                <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 shrink-0 overflow-hidden">
+                  {app.icon_url && app.icon_url.startsWith('data:') ? <img src={app.icon_url} className="w-full h-full object-cover" /> : <Package className="w-5 h-5" />}
                 </div>
                 <div className="truncate">
                   <span className="text-white font-medium block truncate">{app.name}</span>
@@ -135,6 +161,12 @@ export default function Dashboard() {
               <div className="col-span-2 text-slate-300">{app.category}</div>
               <div className="col-span-2 text-slate-300">{app.size}</div>
               <div className="col-span-1 flex items-center justify-end gap-2">
+                <button 
+                  onClick={() => handleEdit(app)}
+                  className="p-2 text-slate-400 hover:text-indigo-400 transition-colors"
+                >
+                  <Edit2 className="w-4 h-4" />
+                </button>
                 <button 
                   onClick={() => handleDelete(app.id)}
                   className="p-2 text-slate-400 hover:text-red-400 transition-colors"
@@ -150,7 +182,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Add Modal */}
+      {/* Add/Edit Modal */}
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -158,25 +190,55 @@ export default function Dashboard() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-slate-900 border border-white/10 rounded-2xl w-full max-w-lg p-6 shadow-2xl"
+              className="bg-slate-900 border border-white/10 rounded-2xl w-full max-w-lg p-6 shadow-2xl max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white">Add New App</h3>
+                <h3 className="text-xl font-bold text-white">{isEditMode ? 'Edit App' : 'Add New App'}</h3>
                 <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-white"><X className="w-6 h-6" /></button>
               </div>
-              <form onSubmit={handleAdd} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                    <input required placeholder="App Name" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white" value={newItem.name || ''} onChange={e => setNewItem({...newItem, name: e.target.value})} />
-                   <input required placeholder="Version (e.g. 1.0)" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white" value={newItem.version || ''} onChange={e => setNewItem({...newItem, version: e.target.value})} />
+                   <input required placeholder="Version" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white" value={newItem.version || ''} onChange={e => setNewItem({...newItem, version: e.target.value})} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                   <input required placeholder="Size (e.g. 50 MB)" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white" value={newItem.size || ''} onChange={e => setNewItem({...newItem, size: e.target.value})} />
+                   <input required placeholder="Size" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white" value={newItem.size || ''} onChange={e => setNewItem({...newItem, size: e.target.value})} />
                    <input required placeholder="Category" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white" value={newItem.category || ''} onChange={e => setNewItem({...newItem, category: e.target.value})} />
                 </div>
-                <input required placeholder="Download URL" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white w-full" value={newItem.download_url || ''} onChange={e => setNewItem({...newItem, download_url: e.target.value})} />
-                <input placeholder="Icon Emoji or URL" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white w-full" value={newItem.icon_url || ''} onChange={e => setNewItem({...newItem, icon_url: e.target.value})} />
                 
-                <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-lg mt-4">Add Application</button>
+                <input required placeholder="Download URL" className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white w-full" value={newItem.download_url || ''} onChange={e => setNewItem({...newItem, download_url: e.target.value})} />
+                
+                {/* Icon Upload */}
+                <div className="space-y-2">
+                  <label className="text-sm text-slate-400">App Icon (Upload Image)</label>
+                  <div className="flex items-center gap-4">
+                     {newItem.icon_url && (
+                       <div className="w-12 h-12 rounded-lg bg-slate-800 overflow-hidden shrink-0">
+                         <img src={newItem.icon_url} className="w-full h-full object-cover" />
+                       </div>
+                     )}
+                     <label className="cursor-pointer bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-white text-sm flex items-center gap-2 transition-colors">
+                       <Upload className="w-4 h-4" />
+                       Upload Icon
+                       <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+                     </label>
+                  </div>
+                </div>
+
+                {/* Whats New */}
+                <div>
+                   <label className="text-sm text-slate-400 block mb-1">What's New</label>
+                   <textarea 
+                     placeholder="New features, bug fixes..." 
+                     className="bg-slate-950 border border-white/10 rounded-lg px-4 py-2 text-white w-full h-24 resize-none"
+                     value={newItem.whats_new || ''} 
+                     onChange={e => setNewItem({...newItem, whats_new: e.target.value})} 
+                   />
+                </div>
+                
+                <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-lg mt-4">
+                  {isEditMode ? 'Save Changes' : 'Add Application'}
+                </button>
               </form>
             </motion.div>
           </div>

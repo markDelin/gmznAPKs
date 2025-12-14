@@ -1,0 +1,42 @@
+functionsDirectory = "C:\\Users\\MCK\\Documents\\GMZNAPKS\\gmznAPKs\\netlify\\functions"
+functionsDirectoryOrigin = "default"
+redirectsOrigin = "config"
+plugins = []
+headers = []
+
+[build]
+publish = "C:\\Users\\MCK\\Documents\\GMZNAPKS\\gmznAPKs\\dist"
+publishOrigin = "config"
+commandOrigin = "config"
+command = "npm run build"
+functions = "C:\\Users\\MCK\\Documents\\GMZNAPKS\\gmznAPKs\\netlify\\functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions."*"]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]

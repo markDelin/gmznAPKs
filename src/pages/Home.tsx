@@ -10,6 +10,7 @@ interface AppData {
   category: string;
   download_url: string;
   icon_url?: string;
+  whats_new?: string;
 }
 
 export default function Home() {
@@ -72,17 +73,31 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 
                 <div className="relative flex items-start justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-2xl overflow-hidden">
-                    {app.icon_url && app.icon_url.length < 5 ? app.icon_url : (app.icon_url ? <img src={app.icon_url} alt="" className="w-full h-full object-cover"/> : "📦")}
+                  <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-2xl overflow-hidden shrink-0">
+                    {app.icon_url && (app.icon_url.startsWith('http') || app.icon_url.startsWith('data:')) ? <img src={app.icon_url} alt="" className="w-full h-full object-cover"/> : "📦"}
                   </div>
-                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                    {app.category}
-                  </span>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                      {app.category}
+                    </span>
+                    {app.whats_new && (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-500/20 text-green-400 uppercase tracking-wide">
+                        Updated
+                      </span>
+                    )}
+                  </div>
                 </div>
                 
                 <div className="mt-4">
-                  <h3 className="text-lg font-semibold text-white group-hover:text-indigo-300 transition-colors">{app.name}</h3>
+                  <h3 className="text-lg font-semibold text-white group-hover:text-indigo-300 transition-colors truncate">{app.name}</h3>
                   <p className="text-sm text-slate-500">Version {app.version} • {app.size}</p>
+                  
+                  {app.whats_new && (
+                    <div className="mt-3 p-2 rounded bg-white/5 text-xs text-slate-400 line-clamp-2">
+                      <strong className="text-indigo-400 block mb-0.5">What's New:</strong>
+                      {app.whats_new}
+                    </div>
+                  )}
                 </div>
 
                 <a href={app.download_url} target="_blank" rel="noopener noreferrer" className="mt-6 w-full py-2 bg-white/5 hover:bg-white/10 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors group-hover:bg-indigo-600 group-hover:text-white cursor-pointer decoration-0">

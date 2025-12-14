@@ -12,12 +12,32 @@ export default async (req: Request, context: Context) => {
 
   try {
     if (req.method === 'POST') {
-      const { name, version, size, category, download_url, icon_url } = await req.json();
+      const { name, version, size, category, download_url, icon_url, whats_new } = await req.json();
       await sql`
-        INSERT INTO apps (name, version, size, category, download_url, icon_url)
-        VALUES (${name}, ${version}, ${size}, ${category}, ${download_url}, ${icon_url})
+        INSERT INTO apps (name, version, size, category, download_url, icon_url, whats_new)
+        VALUES (${name}, ${version}, ${size}, ${category}, ${download_url}, ${icon_url}, ${whats_new})
       `;
       return new Response(JSON.stringify({ message: 'App added' }), { status: 201 });
+    }
+
+    if (req.method === 'PUT') {
+      const { id, name, version, size, category, download_url, icon_url, whats_new } = await req.json();
+      
+      // Dynamic update query is cleaner but for now explicit is safer with typed SQL template
+      await sql`
+        UPDATE apps 
+        SET 
+          name = ${name}, 
+          version = ${version}, 
+          size = ${size}, 
+          category = ${category}, 
+          download_url = ${download_url}, 
+          icon_url = ${icon_url},
+          whats_new = ${whats_new},
+          updated_at = NOW()
+        WHERE id = ${id}
+      `;
+      return new Response(JSON.stringify({ message: 'App updated' }), { status: 200 });
     }
 
     if (req.method === 'DELETE') {
