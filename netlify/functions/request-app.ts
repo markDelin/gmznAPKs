@@ -1,0 +1,27 @@
+import postgres from 'postgres';
+
+const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
+
+export default async (req: Request) => {
+  if (req.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
+  }
+
+  try {
+    const { username, app_name } = await req.json();
+
+    if (!username || !app_name) {
+      return new Response(JSON.stringify({ error: 'Username and App Name are required' }), { status: 400 });
+    }
+
+    await sql`
+      INSERT INTO app_requests (username, app_name)
+      VALUES (${username}, ${app_name})
+    `;
+
+    return new Response(JSON.stringify({ message: 'Request submitted successfully' }), { status: 201 });
+  } catch (error) {
+    console.error('Error submitting request:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+  }
+};

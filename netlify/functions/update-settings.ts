@@ -1,0 +1,48 @@
+import postgres from 'postgres';
+
+const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
+
+export default async (req: Request) => {
+    if (req.method === 'OPTIONS') {
+        return new Response(null, {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Methods': 'POST, OPTIONS'
+            }
+        });
+    }
+
+    if (req.method !== 'POST') {
+        return new Response('Method Not Allowed', { status: 405 });
+    }
+
+    try {
+        const body = await req.json();
+        const { key, value } = body;
+
+        if (!key || value === undefined) {
+             return new Response(JSON.stringify({ error: 'Missing key or value' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+            });
+        }
+
+        await sql`
+            UPDATE system_settings 
+            SET value = ${value}, updated_at = NOW() 
+            WHERE key = ${key}
+        `;
+
+        return new Response(JSON.stringify({ success: true }), {
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+
+    } catch (error) {
+        console.error('Error updating setting:', error);
+        return new Response(JSON.stringify({ error: 'Failed to update setting' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+    }
+};
