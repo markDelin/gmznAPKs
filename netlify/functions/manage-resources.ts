@@ -15,7 +15,6 @@ export const handler: Handler = async (event) => {
 
     try {
         const type = event.queryStringParameters?.type; // 'softwares' or 'tutorials'
-        const id = event.queryStringParameters?.id;
 
         if (!['softwares', 'tutorials'].includes(type || '')) {
              return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid type parameter. Must be "softwares" or "tutorials".' }) };
@@ -42,9 +41,24 @@ export const handler: Handler = async (event) => {
 
         if (event.httpMethod === 'POST') {
             if (type === 'softwares') {
-                await sql`INSERT INTO public.softwares ${sql(body, 'name', 'description', 'icon_url', 'download_url', 'category')}`;
+                const safeBody = {
+                    name: body.name ?? '',
+                    description: body.description ?? null,
+                    icon_url: body.icon_url ?? null,
+                    download_url: body.download_url ?? '',
+                    category: body.category ?? 'Utility'
+                };
+                await sql`INSERT INTO public.softwares ${sql(safeBody, 'name', 'description', 'icon_url', 'download_url', 'category')}`;
             } else {
-                await sql`INSERT INTO public.tutorials ${sql(body, 'title', 'description', 'thumbnail_url', 'video_url', 'category', 'duration')}`;
+                const safeBody = {
+                    title: body.title ?? '',
+                    description: body.description ?? null,
+                    thumbnail_url: body.thumbnail_url ?? null,
+                    video_url: body.video_url ?? '',
+                    category: body.category ?? 'General',
+                    duration: body.duration ?? '00:00'
+                };
+                await sql`INSERT INTO public.tutorials ${sql(safeBody, 'title', 'description', 'thumbnail_url', 'video_url', 'category', 'duration')}`;
             }
             return { statusCode: 200, headers, body: JSON.stringify({ message: 'Created' }) };
         }
@@ -53,9 +67,24 @@ export const handler: Handler = async (event) => {
             if (!body.id) return { statusCode: 400, headers, body: JSON.stringify({ error: 'ID required' }) };
             
             if (type === 'softwares') {
-                await sql`UPDATE public.softwares SET ${sql(body, 'name', 'description', 'icon_url', 'download_url', 'category')} WHERE id = ${body.id}`;
+                const safeBody = {
+                    name: body.name ?? '',
+                    description: body.description ?? null,
+                    icon_url: body.icon_url ?? null,
+                    download_url: body.download_url ?? '',
+                    category: body.category ?? 'Utility'
+                };
+                await sql`UPDATE public.softwares SET ${sql(safeBody, 'name', 'description', 'icon_url', 'download_url', 'category')} WHERE id = ${body.id}`;
             } else {
-                 await sql`UPDATE public.tutorials SET ${sql(body, 'title', 'description', 'thumbnail_url', 'video_url', 'category', 'duration')} WHERE id = ${body.id}`;
+                 const safeBody = {
+                    title: body.title ?? '',
+                    description: body.description ?? null,
+                    thumbnail_url: body.thumbnail_url ?? null,
+                    video_url: body.video_url ?? '',
+                    category: body.category ?? 'General',
+                    duration: body.duration ?? '00:00'
+                };
+                 await sql`UPDATE public.tutorials SET ${sql(safeBody, 'title', 'description', 'thumbnail_url', 'video_url', 'category', 'duration')} WHERE id = ${body.id}`;
             }
             return { statusCode: 200, headers, body: JSON.stringify({ message: 'Updated' }) };
         }

@@ -4,7 +4,7 @@ import postgres from 'postgres';
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }

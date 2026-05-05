@@ -3,20 +3,34 @@ import postgres from 'postgres';
 
 const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = async (event) => {
   const adminPassword = event.headers['x-admin-password'];
   
   if (process.env.ADMIN_PASSWORD && adminPassword !== process.env.ADMIN_PASSWORD) {
      return { statusCode: 401, body: 'Unauthorized' };
   }
 
+  // Ensure columns exist before processing request
+  try {
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS video_url_2 text;`;
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS video_url_dub text;`;
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS video_url_dub_2 text;`;
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS season_number integer DEFAULT 1;`;
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS intro_start integer DEFAULT 0;`;
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS intro_end integer DEFAULT 0;`;
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS outro_start integer DEFAULT 0;`;
+    await sql`ALTER TABLE episodes ADD COLUMN IF NOT EXISTS outro_end integer DEFAULT 0;`;
+  } catch (err) {
+    console.error('Database migration failed:', err);
+  }
+
   if (event.httpMethod === 'POST') {
     try {
-      const { anime_id, episode_number, title, video_url, video_url_dub, season_number, intro_start, intro_end, outro_start, outro_end } = JSON.parse(event.body || '{}');
+      const { anime_id, episode_number, title, video_url, video_url_2, video_url_dub, video_url_dub_2, season_number, intro_start, intro_end, outro_start, outro_end } = JSON.parse(event.body || '{}');
       await sql`
-        INSERT INTO episodes (anime_id, episode_number, title, video_url, video_url_dub, season_number, intro_start, intro_end, outro_start, outro_end)
+        INSERT INTO episodes (anime_id, episode_number, title, video_url, video_url_2, video_url_dub, video_url_dub_2, season_number, intro_start, intro_end, outro_start, outro_end)
         VALUES (
-          ${anime_id}, ${episode_number}, ${title}, ${video_url}, ${video_url_dub || null}, ${season_number || 1},
+          ${anime_id}, ${episode_number}, ${title}, ${video_url}, ${video_url_2 || null}, ${video_url_dub || null}, ${video_url_dub_2 || null}, ${season_number || 1},
           ${intro_start || 0}, ${intro_end || 0}, ${outro_start || 0}, ${outro_end || 0}
         )
       `;
@@ -31,13 +45,15 @@ export const handler: Handler = async (event, context) => {
 
   if (event.httpMethod === 'PUT') {
     try {
-      const { id, episode_number, title, video_url, video_url_dub, season_number, intro_start, intro_end, outro_start, outro_end, anime_id } = JSON.parse(event.body || '{}');
+      const { id, episode_number, title, video_url, video_url_2, video_url_dub, video_url_dub_2, season_number, intro_start, intro_end, outro_start, outro_end, anime_id } = JSON.parse(event.body || '{}');
       await sql`
         UPDATE episodes SET 
           episode_number = ${episode_number}, 
           title = ${title}, 
           video_url = ${video_url}, 
+          video_url_2 = ${video_url_2 || null},
           video_url_dub = ${video_url_dub || null},
+          video_url_dub_2 = ${video_url_dub_2 || null},
           season_number = ${season_number || 1},
           intro_start = ${intro_start || 0},
           intro_end = ${intro_end || 0},

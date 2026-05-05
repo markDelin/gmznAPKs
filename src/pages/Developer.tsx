@@ -4,7 +4,7 @@ import { Github, Twitter, Globe, Code, Terminal, Cpu } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Developer() {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<{name?: string, bio?: string, role?: string, avatar_url?: string, social_links?: {github?: string, twitter?: string, website?: string}} | null>(null);
 
   useEffect(() => {
     fetch('/api/manage-developer')
@@ -13,7 +13,16 @@ export default function Developer() {
         .catch(err => console.error(err));
   }, []);
 
-  if (!profile) return <div className="min-h-screen flex items-center justify-center text-gray-500">Loading profile...</div>;
+  if (!profile) return (
+    <div className="min-h-screen pt-24 pb-12 flex items-center justify-center">
+        <div className="loader-container min-h-[50vh]">
+            <div className="ld-rh3">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 flex items-center justify-center">

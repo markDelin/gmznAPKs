@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, Menu, X, Code, Layers, Award } from 'lucide-react';
+import { Menu, X, Code, Monitor, BookOpen, ShoppingBag, Smartphone, Tv } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,27 +16,52 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-             <div className="bg-[#ff6b44] text-black font-black text-xl w-8 h-8 flex items-center justify-center rounded-lg shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform">
-               G
+             <div className="relative w-8 h-8 flex flex-shrink-0">
+                 <img src="/icon.png" alt="" className="absolute inset-0 w-full h-full blur-[8px] opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all object-cover saturate-150 rounded-xl" />
+                 <img src="/icon.png" alt="GMZN Logo" className="relative z-10 w-full h-full group-hover:scale-110 transition-transform object-cover rounded-xl shadow-inner border border-white/10" />
              </div>
              <span className="text-white font-black text-lg tracking-tight group-hover:text-[#ff6b44] transition-colors">
                GMZN<span className="text-[#ff6b44]">APKS</span>
              </span>
           </Link>
 
-          {/* Desktop Nav */}
+            {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
             <Link 
               to="/" 
               className={`text-sm font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${isActive('/') ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'}`}
             >
-              <Award className="w-4 h-4"/> Badges
+              Home
             </Link>
             <Link 
-              to="/resources" 
-              className={`text-sm font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${isActive('/resources') ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'}`}
+              to="/store" 
+              className={`text-sm font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${isActive('/store') ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'}`}
             >
-              <Layers className="w-4 h-4"/> Resources
+              <ShoppingBag className="w-4 h-4"/> Store
+            </Link>
+            <Link 
+              to="/anime" 
+              className={`text-sm font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${isActive('/anime') || location.pathname.startsWith('/watch') ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'}`}
+            >
+              <Tv className="w-4 h-4"/> Anime
+            </Link>
+            <Link 
+              to="/apps" 
+              className={`text-sm font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${isActive('/apps') ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'}`}
+            >
+              <Smartphone className="w-4 h-4"/> Apps
+            </Link>
+            <Link 
+              to="/softwares" 
+              className={`text-sm font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${isActive('/softwares') ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'}`}
+            >
+              <Monitor className="w-4 h-4"/> Softwares
+            </Link>
+             <Link 
+              to="/tutorials" 
+              className={`text-sm font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${isActive('/tutorials') ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'}`}
+            >
+              <BookOpen className="w-4 h-4"/> Tutorials
             </Link>
             <Link 
               to="/developer" 
@@ -66,19 +91,55 @@ export default function Navbar() {
               className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
             >
               <div className="flex items-center gap-3">
-                 <LayoutGrid className="w-5 h-5"/> Apps
+                 Home
               </div>
             </Link>
             <Link 
-              to="/resources" 
+              to="/store" 
               onClick={() => setIsOpen(false)}
-              className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/resources') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+              className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/store') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
             >
-               <div className="flex items-center gap-3">
-                 <Layers className="w-5 h-5"/> Resources
-               </div>
+              <div className="flex items-center gap-3">
+                 <ShoppingBag className="w-5 h-5"/> Store
+              </div>
+            </Link>
+            <Link 
+              to="/anime" 
+              onClick={() => setIsOpen(false)}
+              className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/anime') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+            >
+              <div className="flex items-center gap-3">
+                 <Tv className="w-5 h-5"/> Anime
+              </div>
+            </Link>
+            <Link 
+              to="/apps" 
+              onClick={() => setIsOpen(false)}
+              className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/apps') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+            >
+              <div className="flex items-center gap-3">
+                 <Smartphone className="w-5 h-5"/> Apps
+              </div>
             </Link>
              <Link 
+              to="/softwares" 
+              onClick={() => setIsOpen(false)}
+              className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/softwares') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+            >
+              <div className="flex items-center gap-3">
+                 <Monitor className="w-5 h-5"/> Softwares
+              </div>
+            </Link>
+             <Link 
+              to="/tutorials" 
+              onClick={() => setIsOpen(false)}
+              className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/tutorials') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+            >
+              <div className="flex items-center gap-3">
+                 <BookOpen className="w-5 h-5"/> Tutorials
+              </div>
+            </Link>
+            <Link 
               to="/developer" 
               onClick={() => setIsOpen(false)}
               className={`block px-3 py-3 rounded-lg text-base font-bold ${isActive('/developer') ? 'bg-[#ff6b44]/10 text-[#ff6b44]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}

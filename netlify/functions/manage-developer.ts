@@ -14,7 +14,25 @@ export const handler: Handler = async (event) => {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
     try {
-        // Lazy Migration: Ensure table exists
+        // GET
+        if (event.httpMethod === 'GET') {
+            try {
+                const data = await sql`SELECT * FROM public.developer_profile LIMIT 1`;
+                return { statusCode: 200, headers, body: JSON.stringify(data[0] || {}) };
+            } catch (err: unknown) {
+                // If the table does not exist, an error is thrown. 
+                // Return an empty object gracefully.
+                if (err && typeof err === 'object' && 'code' in err && (err as {code: string}).code === '42P01') { // PostgreSQL error code for undefined_table
+                     return { statusCode: 200, headers, body: JSON.stringify({}) };
+                }
+                throw err;
+            }
+        }
+
+        // POST/PUT (Update basically)
+        const body = JSON.parse(event.body || '{}');
+        
+        // Lazy Migration: Ensure table exists only when writing
         await sql`
           CREATE TABLE IF NOT EXISTS public.developer_profile (
             id SERIAL PRIMARY KEY,
@@ -25,15 +43,6 @@ export const handler: Handler = async (event) => {
             social_links JSONB DEFAULT '{}'::jsonb
           );
         `;
-
-        // GET
-        if (event.httpMethod === 'GET') {
-            const data = await sql`SELECT * FROM public.developer_profile LIMIT 1`;
-            return { statusCode: 200, headers, body: JSON.stringify(data[0] || {}) };
-        }
-
-        // POST/PUT (Update basically)
-        const body = JSON.parse(event.body || '{}');
 
         // Check if exists
         const exists = await sql`SELECT id FROM public.developer_profile LIMIT 1`;

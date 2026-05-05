@@ -40,3 +40,42 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #ff6b44;
 }
+
+/* Hide scrollbar on mobile but keep functionality */
+@media (max-width: 768px) {
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .custom-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Custom Loader */
+:root {
+  --ld-size: 48px;
+  --ld-color: #6366f1;
+  --ld-sec: #a855f7;
+  --ld-stroke: 3px;
+  --ld-speed: 1;
+  --ld-easing: ease-in-out;
+  --ld-dir: normal;
+  --ld-bg: transparent;
+}
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--ld-bg);
+}
+
+.ld-rh3{position:relative;width:var(--ld-size);height:var(--ld-size)}.ld-rh3 div{position:absolute;inset:0;border-radius:50%;border:var(--ld-stroke) solid transparent;border-top-color:var(--ld-color)}.ld-rh3 div:nth-child(1){animation:ld-rh3a calc(1.2s/var(--ld-speed)) linear infinite}.ld-rh3 div:nth-child(2){inset:15%;animation:ld-rh3a calc(0.8s/var(--ld-speed)) linear infinite reverse}@keyframes ld-rh3a{to{transform:rotate(360deg)}}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

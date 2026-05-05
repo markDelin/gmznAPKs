@@ -1,14 +1,22 @@
 import postgres from 'postgres';
 
-const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
-
 export default async (req: Request) => {
   if (req.method !== 'GET') {
     return new Response('Method Not Allowed', { status: 405 });
   }
 
+  const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
+
+  const adminPassword = req.headers.get('x-admin-password');
+  const isAdmin = adminPassword === process.env.ADMIN_PASSWORD;
+
   try {
-    const apps = await sql`SELECT * FROM apps ORDER BY created_at DESC`;
+    let apps;
+    if (isAdmin) {
+        apps = await sql`SELECT * FROM apps ORDER BY created_at DESC`;
+    } else {
+        apps = await sql`SELECT * FROM apps WHERE is_hidden = FALSE OR is_hidden IS NULL ORDER BY created_at DESC`;
+    }
 
     return new Response(JSON.stringify(apps), {
       headers: { 'Content-Type': 'application/json' },
@@ -19,5 +27,7 @@ export default async (req: Request) => {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
+  } finally {
+    await sql.end();
   }
 };

@@ -74,6 +74,7 @@ export function VideoPlayer({ src, poster, onEnded, autoPlay = false, introStart
               });
           }
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [src]); // Re-run when source changes to ensure new video plays
 
   const togglePlay = () => {

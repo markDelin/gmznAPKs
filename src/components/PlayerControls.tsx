@@ -2,6 +2,7 @@ import {
   Maximize, Minimize, Moon, Sun, 
   SkipForward, PlayCircle, Scissors
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 interface PlayerControlsProps {
   autoPlay: boolean;
@@ -16,6 +17,28 @@ interface PlayerControlsProps {
   toggleFocus: () => void;
 }
 
+const ControlButton = ({ 
+  active = false, 
+  onClick, 
+  icon: Icon, 
+  label 
+}: { 
+  active?: boolean; 
+  onClick: () => void; 
+  icon: LucideIcon; 
+  label: string 
+}) => (
+  <button 
+    onClick={onClick}
+    className={`flex items-center gap-1.5 px-3 md:px-2 py-3 md:py-1 text-xs font-bold transition-colors touch-manipulation ${
+      active ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'
+    }`}
+  >
+    <Icon className={`w-5 h-5 md:w-4 md:h-4 ${active ? 'fill-current' : ''}`} />
+    <span className="hidden md:inline">{label}</span>
+  </button>
+);
+
 export function PlayerControls({
   autoPlay, setAutoPlay,
   autoNext, setAutoNext,
@@ -23,28 +46,6 @@ export function PlayerControls({
   isExpanded, toggleExpand,
   isFocus, toggleFocus
 }: PlayerControlsProps) {
-  
-  const ControlButton = ({ 
-    active = false, 
-    onClick, 
-    icon: Icon, 
-    label 
-  }: { 
-    active?: boolean; 
-    onClick: () => void; 
-    icon: any; 
-    label: string 
-  }) => (
-    <button 
-      onClick={onClick}
-      className={`flex items-center gap-1.5 px-3 md:px-2 py-3 md:py-1 text-xs font-bold transition-colors touch-manipulation ${
-        active ? 'text-[#ff6b44]' : 'text-gray-400 hover:text-white'
-      }`}
-    >
-      <Icon className={`w-5 h-5 md:w-4 md:h-4 ${active ? 'fill-current' : ''}`} />
-      <span className="hidden md:inline">{label}</span>
-    </button>
-  );
 
   return (
     <div className="bg-[#1a1a1a] p-3 rounded-b-xl border-x border-b border-white/5 flex flex-wrap items-center justify-between gap-y-3">

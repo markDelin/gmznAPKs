@@ -13,12 +13,12 @@ import {
 import { motion } from 'framer-motion';
 
 interface AnalyticsProps {
-    orders: any[];
+    orders: { created_at: string, quantity: number, product_name?: string }[];
 }
 
 export const AnalyticsChart = ({ orders }: AnalyticsProps) => {
     // 1. Process Data for Sales over Time
-    const salesData = orders.reduce((acc: any[], order) => {
+    const salesData = orders.reduce((acc: { date: string, sales: number, quantity: number }[], order) => {
         const date = new Date(order.created_at).toLocaleDateString();
         const existing = acc.find(i => i.date === date);
         if (existing) {
@@ -32,15 +32,15 @@ export const AnalyticsChart = ({ orders }: AnalyticsProps) => {
     }, []).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     // 2. Process Data for Top Products
-    const productData = orders.reduce((acc: any[], order) => {
+    const productData = orders.reduce((acc: { name: string, count: number }[], order) => {
         const existing = acc.find(i => i.name === order.product_name);
         if (existing) {
             existing.count += (order.quantity || 1);
         } else {
-            acc.push({ name: order.product_name, count: order.quantity || 1 });
+            acc.push({ name: order.product_name || 'Unknown', count: order.quantity || 1 });
         }
         return acc;
-    }, []).sort((a: any, b: any) => b.count - a.count).slice(0, 5); // Top 5
+    }, []).sort((a: { count: number }, b: { count: number }) => b.count - a.count).slice(0, 5); // Top 5
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
