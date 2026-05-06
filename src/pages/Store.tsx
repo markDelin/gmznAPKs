@@ -244,7 +244,7 @@ export default function Store() {
                     <CheckCircle className="w-10 h-10 text-emerald-400" />
                   </div>
                   <h2 className="text-2xl font-bold text-white mb-2">Order Confirmed!</h2>
-                  <p className="text-slate-400 mb-8 px-4">Your order has been recorded successfully. We will prepare it shortly.</p>
+                  <p className="text-slate-400 mb-8 px-4">Your order has been recorded successfully. I will prepare it shortly.</p>
                   <button 
                     onClick={() => {
                       setStatus('idle');

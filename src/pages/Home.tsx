@@ -105,10 +105,7 @@ export default function Home() {
   };
 
   const AppCard = ({ app }: { app: AppData }) => (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+    <div 
       onClick={() => setSelectedApp(app)}
       className="relative group bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 cursor-pointer p-5"
     >
@@ -170,78 +167,77 @@ export default function Home() {
                   )}
              </div>
         </div>
-    </motion.div>
+    </div>
   );
 
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
-      <div className="mb-12">
+      <div className="mb-12 text-left">
         <h1 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tighter">
             GMZN<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff6b44] to-purple-600">APKS</span>
         </h1>
         <p className="text-gray-400">Your trusted source for premium and modded applications.</p>
       </div>
 
-      {loading ? (
-          <div className="loader-container min-h-[50vh]">
-              <div className="ld-rh3">
-                  <div></div>
-                  <div></div>
-              </div>
-          </div>
-      ) : (
-          <div className="space-y-8">
-               {/* Search & Filter */}
-               <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-                    <div className="relative w-full max-w-md">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                        <input 
-                            className="w-full bg-[#1a1a1a] border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm focus:border-[#ff6b44] outline-none"
-                            placeholder="Search apps..."
-                            value={search}
-                            onChange={e => setSearch(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto custom-scrollbar">
-                        {appCategories.map(cat => (
-                            <button 
-                                key={cat}
-                                onClick={() => setFilter(cat)}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border transition-all ${filter === cat ? 'bg-[#ff6b44] border-[#ff6b44] text-white' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
-                            >
-                                {cat}
-                            </button>
-                        ))}
-                    </div>
-               </div>
+      <div className="space-y-8">
+           {/* Search & Filter */}
+           <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
+                <div className="relative w-full max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                    <input 
+                        className="w-full bg-[#1a1a1a] border border-white/5 rounded-xl pl-10 pr-4 py-2.5 text-white text-sm focus:border-[#ff6b44] outline-none"
+                        placeholder="Search apps..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto custom-scrollbar">
+                    {appCategories.map(cat => (
+                        <button 
+                            key={cat}
+                            onClick={() => setFilter(cat)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border transition-all ${filter === cat ? 'bg-[#ff6b44] border-[#ff6b44] text-white' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+           </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {filteredApps.map(app => <AppCard key={app.id} app={app} />)}
+           {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {[1,2,3,4].map(i => (
+                        <div key={i} className="bg-slate-900/50 border border-white/5 rounded-2xl p-5 h-48 animate-pulse" />
+                    ))}
+                </div>
+           ) : (
+               <div className="space-y-8">
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {filteredApps.map(app => <AppCard key={app.id} app={app} />)}
+                   </div>
+                   
+                   {filteredApps.length === 0 && (
+                        <div className="text-center py-20 text-gray-500">No apps found matching your criteria.</div>
+                   )}
                </div>
-               
-               {filteredApps.length === 0 && (
-                    <div className="text-center py-20 text-gray-500">No apps found matching your criteria.</div>
-               )}
+           )}
 
-                <button 
-                    onClick={() => setShowRequestModal(true)}
-                    className="fixed bottom-8 right-8 w-14 h-14 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full flex items-center justify-center shadow-2xl shadow-indigo-900/40 hover:scale-110 transition-all z-40 group"
-                    title="Request App"
-                >
-                    <ShieldCheck className="w-6 h-6 group-hover:rotate-12 transition-transform" />
-                </button>
-          </div>
-      )}
+            <button 
+                onClick={() => setShowRequestModal(true)}
+                className="fixed bottom-8 right-8 w-14 h-14 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full flex items-center justify-center shadow-2xl shadow-indigo-900/40 hover:scale-110 transition-all z-40 group"
+                title="Request App"
+            >
+                <ShieldCheck className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+            </button>
+      </div>
 
       {/* --- MODALS --- */}
       <AnimatePresence>
-            {/* App Details Modal */}
             {selectedApp && (
                 <motion.div 
                     initial={{ opacity: 0 }} 
                     animate={{ opacity: 1 }} 
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
                     className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
                     onClick={() => setSelectedApp(null)}
                 >
@@ -249,8 +245,7 @@ export default function Home() {
                         initial={{ scale: 0.95, opacity: 0, y: 10 }} 
                         animate={{ scale: 1, opacity: 1, y: 0 }} 
                         exit={{ scale: 0.95, opacity: 0, y: 10 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="bg-[#0f0f0f]/95 backdrop-blur-xl border border-white/10 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden relative h-[65vh] md:h-auto md:max-h-[85vh] flex flex-col will-change-transform"
+                        className="bg-[#0f0f0f]/95 backdrop-blur-xl border border-white/10 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden relative h-[65vh] md:h-auto md:max-h-[85vh] flex flex-col"
                         onClick={e => e.stopPropagation()}
                      >
                         <div className="flex-1 overflow-y-auto custom-scrollbar">
@@ -262,33 +257,33 @@ export default function Home() {
                         
                             <div className="px-5 pb-6 md:px-8 md:pb-8 -mt-12 relative z-10 mb-6">
                                 <div className="flex flex-col md:flex-row gap-5 md:gap-6">
-                                <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a1a1a] rounded-3xl border border-white/10 shadow-2xl shadow-[#ff6b44]/20 overflow-hidden flex-shrink-0 relative group">
-                                     {selectedApp.icon_url ? (
-                                        <>
-                                            <img src={selectedApp.icon_url} className="absolute inset-0 w-full h-full blur-lg opacity-50 transition-opacity saturate-150 rounded-3xl" alt="" />
-                                            <img src={selectedApp.icon_url} className="w-full h-full object-cover relative z-10 rounded-3xl shadow-inner border border-white/5" alt={selectedApp.name} />
-                                        </>
-                                     ) : (
-                                         <div className="w-full h-full flex items-center justify-center text-slate-500"><Smartphone className="w-10 h-10"/></div>
-                                     )}
+                                    <div className="w-24 h-24 md:w-32 md:h-32 bg-[#1a1a1a] rounded-3xl border border-white/10 shadow-2xl shadow-[#ff6b44]/20 overflow-hidden flex-shrink-0 relative group">
+                                         {selectedApp.icon_url ? (
+                                            <>
+                                                <img src={selectedApp.icon_url} className="absolute inset-0 w-full h-full blur-lg opacity-50 transition-opacity saturate-150 rounded-3xl" alt="" />
+                                                <img src={selectedApp.icon_url} className="w-full h-full object-cover relative z-10 rounded-3xl shadow-inner border border-white/5" alt={selectedApp.name} />
+                                            </>
+                                         ) : (
+                                             <div className="w-full h-full flex items-center justify-center text-slate-500"><Smartphone className="w-10 h-10"/></div>
+                                         )}
+                                    </div>
+                                    
+                                    <div className="flex-1 pt-12">
+                                         <div className="flex flex-wrap gap-2 mb-2">
+                                             {selectedApp.tags?.map(t => (
+                                                 <span key={t} className="px-2 py-0.5 rounded text-[10px] bg-[#ff6b44]/10 text-[#ff6b44] border border-[#ff6b44]/20">{t}</span>
+                                             ))}
+                                         </div>
+                                         <h2 className="text-3xl font-bold text-white mb-1">{selectedApp.name}</h2>
+                                         <div className="flex items-center gap-4 text-sm text-slate-400">
+                                             <span>v{selectedApp.version}</span>
+                                             <span>•</span>
+                                             <span>{selectedApp.size}</span>
+                                             <span>•</span>
+                                             <span>{selectedApp.category}</span>
+                                         </div>
+                                    </div>
                                 </div>
-                                
-                                <div className="flex-1 pt-12">
-                                     <div className="flex flex-wrap gap-2 mb-2">
-                                         {selectedApp.tags?.map(t => (
-                                             <span key={t} className="px-2 py-0.5 rounded text-[10px] bg-[#ff6b44]/10 text-[#ff6b44] border border-[#ff6b44]/20">{t}</span>
-                                         ))}
-                                     </div>
-                                     <h2 className="text-3xl font-bold text-white mb-1">{selectedApp.name}</h2>
-                                     <div className="flex items-center gap-4 text-sm text-slate-400">
-                                         <span>v{selectedApp.version}</span>
-                                         <span>•</span>
-                                         <span>{selectedApp.size}</span>
-                                         <span>•</span>
-                                         <span>{selectedApp.category}</span>
-                                     </div>
-                                </div>
-                            </div>
                             </div>
 
                             <div className="mt-2 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 p-6 pt-0">
@@ -297,9 +292,7 @@ export default function Home() {
                                          <FileText className="w-4 h-4" /> Description
                                      </h3>
                                      <p className="text-slate-300 leading-relaxed text-sm">
-                                         {selectedApp.description || (selectedApp.category === 'Original Apps' 
-                                            ? "Download the official, original application safely and securely. Enjoy the latest features and updates direct from the developer."
-                                            : "Unlock the full potential of this application with our premium mod. Enjoy ad-free experience, unlocked features, and unlimited access. Download safely and securely.")}
+                                         {selectedApp.description || "Download the official application safely and securely."}
                                      </p>
                                 </div>
                                 <div className="space-y-4">
@@ -312,11 +305,6 @@ export default function Home() {
                                                  <span className="font-bold text-[#ff6b44]">v{selectedApp.version}</span>
                                                  <span className="text-[10px] text-gray-500 bg-white/5 px-2 py-1 rounded-full border border-white/5">Current</span>
                                              </div>
-                                             <p className="text-xs text-slate-400">
-                                                 {selectedApp.category === 'Original Apps'
-                                                     ? 'Latest official version with performance improvements and bug fixes.'
-                                                     : 'Latest version with all premium features unlocked and performance improvements.'}
-                                             </p>
                                          </div>
                                           {selectedApp.previous_versions?.map((v, i) => (
                                              <div key={i} className="flex justify-between items-center p-4 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/5">
@@ -324,22 +312,15 @@ export default function Home() {
                                                  <a href={v.download_url} onClick={(e) => handleDownload(e, v.download_url, `${selectedApp.name} v${v.version}`)} className="text-xs font-bold text-[#ff6b44] hover:text-[#ff5528] px-3 py-1.5 bg-[#ff6b44]/10 rounded-lg hover:bg-[#ff6b44]/20 transition-colors">Download</a>
                                              </div>
                                          ))}
-                                          {!selectedApp.previous_versions?.length && (
-                                              <div className="text-xs text-slate-600 italic">No older versions available.</div>
-                                          )}
                                      </div>
                                 </div>
                             </div>
-
                         </div>
                         
                         <div className="p-5 border-t border-white/5 bg-[#0a0a0a]/95 backdrop-blur-xl flex gap-4 shrink-0 z-20">
                             <a href={selectedApp.download_url} onClick={(e) => handleDownload(e, selectedApp.download_url, selectedApp.name)} className="flex-1 py-4 bg-gradient-to-r from-[#ff6b44] to-[#ff5528] text-white rounded-2xl font-black text-lg text-center flex items-center justify-center gap-2 shadow-xl shadow-orange-500/20 hover:scale-[1.02] transition-transform">
                                 <Download className="w-5 h-5" /> Download APK
                             </a>
-                             <button className="px-4 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-colors">
-                                <ShieldCheck className="w-5 h-5" />
-                            </button>
                         </div>
                      </motion.div>
                 </motion.div>
@@ -366,7 +347,6 @@ export default function Home() {
                                      <CheckCircle className="w-8 h-8" />
                                  </div>
                                  <h3 className="text-2xl font-bold text-white mb-2">Request Sent!</h3>
-                                 <p className="text-slate-400">We'll review your request shortly.</p>
                              </div>
                         ) : (
                             <>
@@ -382,19 +362,10 @@ export default function Home() {
                                             onChange={e => setRequestForm({...requestForm, app_name: e.target.value})}
                                         />
                                     </div>
-                                    <div>
-                                        <label className="block text-xs font-medium text-slate-400 mb-1 uppercase tracking-wider">Your Name (Optional)</label>
-                                        <input 
-                                            className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-indigo-500 outline-none"
-                                            placeholder="Anonymous"
-                                            value={requestForm.username}
-                                            onChange={e => setRequestForm({...requestForm, username: e.target.value})}
-                                        />
-                                    </div>
                                     <button 
                                         disabled={requestStatus === 'submitting'}
                                         type="submit" 
-                                        className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-indigo-900/20 flex items-center justify-center gap-2"
+                                        className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl flex items-center justify-center gap-2"
                                     >
                                         {requestStatus === 'submitting' ? <Loader2 className="animate-spin w-5 h-5"/> : 'Submit Request'}
                                     </button>

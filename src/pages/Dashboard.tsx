@@ -55,6 +55,7 @@ interface Episode {
   video_url_dub: string;
   video_url_dub_2: string;
   thumbnail_url: string;
+  season_number: number;
 }
 
 
@@ -244,6 +245,8 @@ const AppForm = ({ initialData, onSubmit, onCancel }: { initialData: Partial<App
                     ))}
                  </div>
             </div>
+
+
 
             <div className="pt-4 border-t border-white/10">
                 <div className="flex items-center justify-between mb-2">
@@ -491,6 +494,8 @@ const AnimeForm = ({ initialData, onSubmit, onCancel }: { initialData: Partial<A
                       ))}
                   </div>
              </div>
+
+
              <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
                 <button onClick={onCancel} className="px-4 py-2 text-gray-400 hover:text-white text-sm">Cancel</button>
                 <button onClick={() => onSubmit(formData)} className="px-6 py-2 bg-[#ff6b44] hover:bg-[#ff5528] text-white rounded font-bold text-sm">Save Anime</button>
@@ -501,12 +506,17 @@ const AnimeForm = ({ initialData, onSubmit, onCancel }: { initialData: Partial<A
 
 const EpisodeForm = ({ initialData, animeId, onSubmit, onCancel }: { initialData: Partial<Episode> | null, animeId: number, onSubmit: (data: Partial<Episode>) => void, onCancel: () => void }) => {
     const [formData, setFormData] = useState(initialData || {
-        anime_id: animeId, episode_number: 1, title: '', video_url: '', video_url_2: '', video_url_dub: '', video_url_dub_2: '', thumbnail_url: ''
+        anime_id: animeId, episode_number: 1, title: '', video_url: '', video_url_2: '', video_url_dub: '', video_url_dub_2: '', thumbnail_url: '', season_number: 1
     });
 
     return (
         <div className="text-left space-y-4">
-             <div className="grid grid-cols-2 gap-4">
+             <div className="grid grid-cols-3 gap-4">
+                <div>
+                     <label className="text-xs text-[#ff6b44] font-bold uppercase mb-1 block">Season</label>
+                     <input type="number" className="w-full bg-[#0f0f0f] border border-white/10 rounded p-2 text-white focus:border-[#ff6b44] outline-none"
+                        value={formData.season_number} onChange={e => setFormData({...formData, season_number: parseInt(e.target.value)})} />
+                </div>
                 <div>
                      <label className="text-xs text-[#ff6b44] font-bold uppercase mb-1 block">Episode Number</label>
                      <input type="number" className="w-full bg-[#0f0f0f] border border-white/10 rounded p-2 text-white focus:border-[#ff6b44] outline-none"
@@ -865,6 +875,8 @@ export default function Dashboard() {
       }
   };
 
+
+
   // --- Modal Openers ---
   const openAppModal = (app: Partial<AppData> | null) => {
       MySwal.fire({
@@ -916,6 +928,32 @@ export default function Dashboard() {
   };
 
   const openEpisodeModal = (animeId: number, item: Partial<Episode> | null) => {
+      let initialEpisodeData = item;
+      
+      if (!item) {
+          // Calculate next episode number based on existing episodes
+          const maxEp = episodes.length > 0 
+              ? Math.max(...episodes.map(e => e.episode_number || 0)) 
+              : 0;
+          
+          // Use the season from the last episode added, or default to 1
+          const lastSeason = episodes.length > 0 
+              ? episodes[episodes.length - 1].season_number || 1 
+              : 1;
+
+          initialEpisodeData = {
+              anime_id: animeId,
+              episode_number: maxEp + 1,
+              season_number: lastSeason,
+              title: '',
+              video_url: '',
+              video_url_2: '',
+              video_url_dub: '',
+              video_url_dub_2: '',
+              thumbnail_url: ''
+          };
+      }
+
       MySwal.fire({
           title: '', padding: 0, showConfirmButton: false, background: 'transparent',
           html: (
@@ -924,7 +962,7 @@ export default function Dashboard() {
                        {item ? <Edit2 className="w-5 h-5 text-[#ff6b44]" /> : <Plus className="w-5 h-5 text-[#ff6b44]" />}
                        {item ? 'Edit Episode' : 'Add New Episode'}
                   </h3>
-                  <EpisodeForm animeId={animeId} initialData={item} onCancel={() => Swal.close()} onSubmit={data => apiAction('/api/manage-episode', item?.id ? 'PUT' : 'POST', {...data, id: item?.id, anime_id: animeId}, () => fetchEpisodes(animeId), 'Episode Saved!')} />
+                  <EpisodeForm animeId={animeId} initialData={initialEpisodeData} onCancel={() => Swal.close()} onSubmit={data => apiAction('/api/manage-episode', item?.id ? 'PUT' : 'POST', {...data, id: item?.id, anime_id: animeId}, () => { fetchEpisodes(animeId); fetchAnime(); }, item?.id ? 'Episode Saved!' : 'Episode Added!')} />
               </div>
           )
       });
@@ -996,46 +1034,28 @@ export default function Dashboard() {
                  </button>
              </div>
 
-             <nav className="flex-1 px-4 space-y-2">
-                 <button onClick={() => { setActiveTab('apps'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'apps' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <Smartphone className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>Applications</span>
-                 </button>
-                 <button onClick={() => { setActiveTab('softwares'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'softwares' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <Monitor className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>Softwares</span>
-                 </button>
-                 <button onClick={() => { setActiveTab('tutorials'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'tutorials' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <BookOpen className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>Tutorials</span>
-                 </button>
-                  <button onClick={() => { setActiveTab('developer'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'developer' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <Code className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>Developer</span>
-                 </button>
-                 <button onClick={() => { setActiveTab('orders'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'orders' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <ShoppingCart className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>RJ45 Orders</span>
-                 </button>
-                 <button onClick={() => { setActiveTab('sellers'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'sellers' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <Users className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>Sellers</span>
-                 </button>
-                 <button onClick={() => { setActiveTab('requests'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'requests' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <Inbox className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>App Requests</span>
-                 </button>
-                 <button onClick={() => { setActiveTab('anime'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'anime' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <Tv className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>Anime Manager</span>
-                 </button>
-
-                 <button onClick={() => { setActiveTab('settings'); setSidebarOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === 'settings' ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>
-                     <Settings className="w-5 h-5" />
-                     <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>Settings</span>
-                 </button>
-
-             </nav>
+              <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
+                  {[
+                      { id: 'apps', label: 'Applications', icon: Smartphone },
+                      { id: 'softwares', label: 'Softwares', icon: Monitor },
+                      { id: 'tutorials', label: 'Tutorials', icon: BookOpen },
+                      { id: 'developer', label: 'Developer', icon: Code },
+                      { id: 'orders', label: 'RJ45 Orders', icon: ShoppingCart },
+                      { id: 'sellers', label: 'Sellers', icon: Users },
+                      { id: 'requests', label: 'App Requests', icon: Inbox },
+                      { id: 'anime', label: 'Anime Manager', icon: Tv },
+                      { id: 'settings', label: 'Settings', icon: Settings }
+                  ].sort((a, b) => a.id === activeTab ? -1 : b.id === activeTab ? 1 : 0).map((tab) => (
+                      <button 
+                          key={tab.id}
+                          onClick={() => { setActiveTab(tab.id as any); setSidebarOpen(false); }} 
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === tab.id ? 'bg-[#ff6b44] text-white shadow-lg shadow-orange-500/10' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                      >
+                          <tab.icon className="w-5 h-5" />
+                          <span className={`font-bold text-sm ${!sidebarOpen && 'lg:hidden'}`}>{tab.label}</span>
+                      </button>
+                  ))}
+              </nav>
 
              <div className="p-4 border-t border-white/5">
                  <button onClick={handleLogout} className="w-full flex items-center justify-center gap-2 p-3 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors">
@@ -1049,7 +1069,7 @@ export default function Dashboard() {
          <main className={`flex-1 p-4 lg:p-10 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'} w-full`}>
              
              {/* Header */}
-             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+             <div className="sticky top-0 z-30 bg-[#0f0f0f]/80 backdrop-blur-xl pt-4 pb-6 -mt-4 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/5">
                  <div className="flex items-center gap-4">
                      <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 bg-[#1a1a1a] rounded-lg text-white lg:hidden">
                          <Menu className="w-5 h-5" />
@@ -1098,19 +1118,13 @@ export default function Dashboard() {
              </div>
 
              {/* Content Area */}
-             <div className="bg-[#1a1a1a] rounded-2xl border border-white/5 p-6 min-h-[600px]">
-                 
-                 {loading ? (
-                     <div className="flex flex-col items-center justify-center min-h-[500px]">
-                         <div className="loader-container min-h-[30vh]">
-                             <div className="ld-rh3">
-                                 <div></div>
-                                 <div></div>
-                             </div>
-                         </div>
+             <div className="bg-[#1a1a1a] rounded-2xl border border-white/5 p-6 min-h-[600px] relative">
+                 {loading && (
+                     <div className="absolute top-4 right-4 z-50">
+                         <div className="w-5 h-5 border-2 border-[#ff6b44] border-t-transparent rounded-full animate-spin" />
                      </div>
-                 ) : (
-                     <>
+                 )}
+                 
                  {/* APPS VIEW */}
                  {activeTab === 'apps' && (
                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -1283,7 +1297,14 @@ export default function Dashboard() {
                                  </div>
 
                                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                     {episodes.map(ep => (
+                                     {Array.from(new Set(episodes.map(e => e.season_number || 1))).sort((a,b) => a-b).map(season => (
+                                          <div key={season} className="space-y-4 mb-8 last:mb-0">
+                                              <div className="flex items-center gap-4">
+                                                  <h3 className="text-sm font-black text-gray-500 uppercase tracking-widest">Season {season}</h3>
+                                                  <div className="h-[1px] flex-1 bg-white/5" />
+                                              </div>
+                                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                  {episodes.filter(e => (e.season_number || 1) === season).map(ep => (
                                          <div key={ep.id} className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-4 flex items-center justify-between group">
                                              <div className="flex items-center gap-4 overflow-hidden">
                                                  <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center font-black text-[#ff6b44] shrink-0">
@@ -1309,10 +1330,13 @@ export default function Dashboard() {
                                                  <button onClick={() => confirmDelete(() => apiAction('/api/manage-episode', 'DELETE', {id: ep.id}, () => fetchEpisodes(selectedAnime.id)))} className="p-2 hover:bg-white/5 rounded-lg text-red-500 transition-colors"><Trash2 className="w-3 h-3" /></button>
                                              </div>
                                          </div>
-                                     ))}
+                                          ))}
+                                      </div>
+                                  </div>
+                              ))}
                                      {episodes.length === 0 && (
                                          <div className="col-span-full py-12 text-center text-gray-500 bg-white/5 rounded-3xl border border-dashed border-white/10 uppercase font-black tracking-widest text-xs">
-                                             No episodes added yet
+                                             No episodes found for this season
                                          </div>
                                      )}
                                  </div>
@@ -1514,8 +1538,7 @@ export default function Dashboard() {
                          </div>
                      </div>
                  )}
-                     </>
-                 )}
+
             </div>
          </main>
     </div>

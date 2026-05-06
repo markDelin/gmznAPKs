@@ -31,13 +31,7 @@ const SettingsContext = createContext<SettingsContextType>({
 export const useSettings = () => useContext(SettingsContext);
 
 function AppContent() {
-  const { homepageLayout, loading } = useSettings();
-
-  if (loading) {
-     return <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin" />
-     </div>;
-  }
+  const { homepageLayout } = useSettings();
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30">

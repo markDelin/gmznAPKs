@@ -20,7 +20,7 @@ export default async (req: Request, context: Context) => {
     const episodes = await sql`
       SELECT * FROM episodes
       WHERE anime_id = ${idNum}
-      ORDER BY episode_number ASC
+      ORDER BY season_number ASC, episode_number ASC
     `;
 
     return new Response(JSON.stringify(episodes), {
