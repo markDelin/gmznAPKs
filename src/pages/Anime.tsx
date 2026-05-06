@@ -58,23 +58,23 @@ export default function Anime() {
         </div>
 
         {/* Browser Recommendation */}
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-500/10 via-red-500/5 to-transparent rounded-3xl border border-white/5 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff6b44]/10 rounded-full blur-[40px] group-hover:bg-[#ff6b44]/20 transition-colors pointer-events-none" />
-            <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
-                <div className="w-16 h-16 flex-shrink-0 bg-white/5 p-3 rounded-2xl border border-white/10 shadow-inner">
+        <div className="mt-6 p-4 bg-gradient-to-r from-orange-500/10 via-red-500/5 to-transparent rounded-2xl border border-white/5 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-[#ff6b44]/5 rounded-full blur-[30px] group-hover:bg-[#ff6b44]/10 transition-colors pointer-events-none" />
+            <div className="flex flex-col md:flex-row items-center gap-4 relative z-10">
+                <div className="w-12 h-12 flex-shrink-0 bg-white/5 p-2 rounded-xl border border-white/10 shadow-inner">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Brave_lion_icon.svg" alt="Brave Browser" className="w-full h-full object-contain" />
                 </div>
                 <div className="text-center md:text-left flex-1">
-                    <h3 className="text-white font-black text-lg mb-1 uppercase tracking-tight">Better Viewing Experience</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
-                        For the best ad-free experience, I recommend using <span className="text-white font-bold">Brave Browser</span>. It automatically blocks intrusive ads and trackers for a smoother playback.
+                    <h3 className="text-white font-black text-sm mb-0.5 uppercase tracking-tight">Better Viewing Experience</h3>
+                    <p className="text-gray-400 text-[11px] leading-relaxed">
+                        For the best ad-free experience, I recommend using <span className="text-white font-bold">Brave Browser</span> to block intrusive ads and trackers.
                     </p>
                 </div>
                 <a 
                     href="https://brave.com/download/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="px-6 py-3 bg-[#ff6b44] hover:bg-[#ff5528] text-white rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-orange-500/20 hover:scale-105"
+                    className="px-4 py-2 bg-[#ff6b44] hover:bg-[#ff5528] text-white rounded-lg font-black text-[10px] uppercase tracking-widest transition-all shadow-lg shadow-orange-500/20 hover:scale-105"
                 >
                     Get Brave
                 </a>

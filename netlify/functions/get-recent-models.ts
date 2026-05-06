@@ -1,7 +1,5 @@
 import { Handler } from '@netlify/functions';
-import postgres from 'postgres';
-
-const sql = postgres(process.env.DATABASE_URL || '', { ssl: 'require' });
+import sql from './utils/db';
 
 export const handler: Handler = async (event) => {
     const headers = {

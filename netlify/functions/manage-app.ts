@@ -1,4 +1,4 @@
-import postgres from 'postgres';
+import sql from './utils/db';
 
 export default async (req: Request) => {
   const adminPassword = req.headers.get('x-admin-password');
@@ -6,8 +6,6 @@ export default async (req: Request) => {
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
-
-  const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
   try {
     const data = await req.json();
@@ -69,7 +67,5 @@ export default async (req: Request) => {
   } catch (error: any) {
     console.error('Error managing app:', error);
     return new Response(JSON.stringify({ error: error.message || 'Internal Server Error', stack: error.stack }), { status: 500 });
-  } finally {
-    await sql.end();
   }
 };

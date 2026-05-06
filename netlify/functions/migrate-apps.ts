@@ -1,7 +1,6 @@
-import postgres from 'postgres';
+import sql from './utils/db';
 
 export default async (req: Request) => {
-  const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
   try {
     console.log('Migrating apps table to add is_hidden...');
@@ -21,7 +20,5 @@ export default async (req: Request) => {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
-  } finally {
-    await sql.end();
   }
 };

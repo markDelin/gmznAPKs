@@ -1,11 +1,9 @@
-import postgres from 'postgres';
+import sql from './utils/db';
 
 export default async (req: Request) => {
   if (req.method !== 'GET') {
     return new Response('Method Not Allowed', { status: 405 });
   }
-
-  const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
   const adminPassword = req.headers.get('x-admin-password');
   const isAdmin = adminPassword === process.env.ADMIN_PASSWORD;
@@ -27,7 +25,5 @@ export default async (req: Request) => {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
-  } finally {
-    await sql.end();
   }
 };

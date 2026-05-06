@@ -187,7 +187,7 @@ export default function WatchAnime() {
                 const hasS2 = isSub ? !!currentEpisode.video_url_2 : !!currentEpisode.video_url_dub_2;
 
                 return (
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-4 bg-white/5 rounded-3xl border border-white/5">
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-4 bg-white/5 rounded-3xl border border-white/5">
                       <div className="flex flex-wrap items-center gap-6">
                         {/* Audio Selector */}
                         <div className="space-y-2">
@@ -257,31 +257,30 @@ export default function WatchAnime() {
                       </div>
 
                       {/* Episode Navigation */}
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
                          <button 
                            onClick={() => prevEp && setCurrentEpisode(prevEp)}
                            disabled={!prevEp}
-                           className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${
+                           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                              prevEp 
-                               ? 'bg-white/5 hover:bg-white/10 text-white border border-white/10' 
-                               : 'text-gray-800 cursor-not-allowed'
+                               ? 'bg-white/5 hover:bg-white/10 text-white border border-white/5' 
+                               : 'text-gray-800 cursor-not-allowed opacity-30'
                            }`}
                          >
-                           <SkipBack className="w-4 h-4" /> 
-                           <span className="hidden sm:inline">Prev</span>
+                           <SkipBack className="w-3.5 h-3.5" /> 
+                           <span>Prev</span>
                          </button>
                          <button 
                            onClick={() => nextEp && setCurrentEpisode(nextEp)}
                            disabled={!nextEp}
-                           className={`flex items-center gap-2 px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${
+                           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                              nextEp 
-                               ? 'bg-[#ff6b44] hover:bg-[#ff5528] text-white shadow-xl shadow-orange-500/20' 
-                               : 'bg-white/5 text-gray-800 cursor-not-allowed'
+                               ? 'bg-[#ff6b44] hover:bg-[#ff5528] text-white shadow-lg shadow-orange-500/20' 
+                               : 'bg-white/5 text-gray-800 cursor-not-allowed opacity-30'
                            }`}
                          >
-                           <span className="hidden sm:inline">Next Episode</span>
-                           <span className="sm:hidden">Next</span>
-                           <SkipForward className="w-4 h-4" />
+                           <span>Next</span>
+                           <SkipForward className="w-3.5 h-3.5" />
                          </button>
                       </div>
                     </div>
@@ -323,23 +322,23 @@ export default function WatchAnime() {
                 );
              })()}
 
-             <div className="grid grid-cols-4 gap-3 max-h-[800px] overflow-y-auto pr-2 custom-scrollbar">
+             <div className="grid grid-cols-6 gap-2 max-h-[800px] overflow-y-auto pr-2 custom-scrollbar">
                 {episodes.filter(ep => (ep.season_number || 1) === selectedSeason).map(ep => (
                   <button 
                     key={ep.id}
                     onClick={() => setCurrentEpisode(ep)}
-                    className={`aspect-square flex items-center justify-center rounded-xl border transition-all text-center p-2 ${
+                    className={`aspect-square flex items-center justify-center rounded-xl border transition-all text-center p-1 ${
                       currentEpisode?.id === ep.id 
                         ? 'bg-[#ff6b44] border-[#ff6b44] shadow-lg shadow-orange-500/20 text-white' 
                         : 'bg-white/5 border-white/5 hover:border-white/20 text-gray-400 hover:text-white'
                     }`}
                     title={ep.title || `Episode ${ep.episode_number}`}
                   >
-                    <span className="font-black text-sm">{ep.episode_number}</span>
+                    <span className="font-black text-xs">{ep.episode_number}</span>
                   </button>
                 ))}
                 {episodes.length === 0 && (
-                  <div className="col-span-4 p-8 text-center bg-white/5 rounded-3xl border border-dashed border-white/10">
+                  <div className="col-span-6 p-8 text-center bg-white/5 rounded-3xl border border-dashed border-white/10">
                     <p className="text-gray-500 text-xs font-bold italic uppercase tracking-widest">Episodes coming soon</p>
                   </div>
                 )}

@@ -1,12 +1,9 @@
-// manage-products.ts - For Sellers to manage their products
-import postgres from 'postgres';
+import sql from './utils/db';
 
 export default async (req: Request) => {
     if (req.method === 'OPTIONS') {
         return new Response(null, { headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type, x-seller-id', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS' } });
     }
-
-    const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
     try {
         // GET can be public (for the storefront) or filtered by seller
@@ -83,7 +80,5 @@ export default async (req: Request) => {
     } catch (e: unknown) {
         console.error('Products error:', e);
         return new Response(JSON.stringify({ error: 'Server Error' }), { status: 500 });
-    } finally {
-        await sql.end();
     }
 };

@@ -1,7 +1,4 @@
-// manage-sellers.ts - For Main Admin to create/list sellers
-import postgres from 'postgres';
-
-const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
+import sql from './utils/db';
 
 export default async (req: Request) => {
     if (req.method === 'OPTIONS') {
