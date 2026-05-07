@@ -8,7 +8,8 @@ export default async (req: Request) => {
   }
 
   try {
-    const requests = await sql`SELECT * FROM app_requests ORDER BY created_at DESC`;
+    const { data: requests, error } = await sql.from('app_requests').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
     return new Response(JSON.stringify(requests), { status: 200 });
   } catch (error) {
     console.error('Error fetching requests:', error);

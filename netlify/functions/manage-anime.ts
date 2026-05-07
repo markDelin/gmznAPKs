@@ -13,35 +13,33 @@ export default async (req: Request) => {
     const { id, title, description, cover_image, banner_image, genre, status, rating, total_episodes } = body;
 
     if (req.method === 'POST') {
-      const result = await sql`
-        INSERT INTO anime (title, description, cover_image, banner_image, genre, status, rating, total_episodes)
-        VALUES (${title}, ${description}, ${cover_image}, ${banner_image}, ${genre}, ${status}, ${rating}, ${total_episodes})
-        RETURNING *
-      `;
-      return new Response(JSON.stringify(result[0]), { status: 201, headers });
+      const { data, error } = await sql
+        .from('anime')
+        .insert({ title, description, cover_image, banner_image, genre, status, rating, total_episodes })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return new Response(JSON.stringify(data), { status: 201, headers });
     }
 
     if (req.method === 'PUT') {
       if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400, headers });
-      const result = await sql`
-        UPDATE anime SET
-          title = ${title},
-          description = ${description},
-          cover_image = ${cover_image},
-          banner_image = ${banner_image},
-          genre = ${genre},
-          status = ${status},
-          rating = ${rating},
-          total_episodes = ${total_episodes}
-        WHERE id = ${id}
-        RETURNING *
-      `;
-      return new Response(JSON.stringify(result[0]), { headers });
+      const { data, error } = await sql
+        .from('anime')
+        .update({ title, description, cover_image, banner_image, genre, status, rating, total_episodes })
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return new Response(JSON.stringify(data), { headers });
     }
 
     if (req.method === 'DELETE') {
       if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400, headers });
-      await sql`DELETE FROM anime WHERE id = ${id}`;
+      const { error } = await sql.from('anime').delete().eq('id', id);
+      if (error) throw error;
       return new Response(JSON.stringify({ message: 'Deleted' }), { headers });
     }
 

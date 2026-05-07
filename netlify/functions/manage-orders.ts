@@ -11,39 +11,37 @@ export default async (req: Request) => {
       }
 
       try {
-        const newOrder = await sql.begin(async (tx: any) => {
-            // Check stock using row lock if it exists
-            const [stockSetting] = await tx`
-              SELECT value FROM system_settings WHERE key = 'rj45_stock' FOR UPDATE
-            `;
-            
-            if (stockSetting) {
-                const currentStock = parseInt(stockSetting.value, 10);
-                if (currentStock < quantity) {
-                    throw new Error('Insufficient Stock');
-                }
-                
-                // Deduct stock
-                await tx`
-                    UPDATE system_settings
-                    SET value = ${(currentStock - quantity).toString()}, updated_at = NOW()
-                    WHERE key = 'rj45_stock'
-                `;
+        // Fetch stock
+        const { data: stockSetting } = await sql
+            .from('system_settings')
+            .select('value')
+            .eq('key', 'rj45_stock')
+            .single();
+        
+        if (stockSetting) {
+            const currentStock = parseInt(stockSetting.value, 10);
+            if (currentStock < quantity) {
+                return new Response(JSON.stringify({ error: 'Not enough stock available' }), { status: 400 });
             }
+            
+            // Deduct stock
+            await sql
+                .from('system_settings')
+                .update({ value: (currentStock - quantity).toString(), updated_at: new Date().toISOString() })
+                .eq('key', 'rj45_stock');
+        }
 
-            const inserted = await tx`
-              INSERT INTO rj45_orders (name, quantity)
-              VALUES (${name}, ${quantity})
-              RETURNING *
-            `;
-            return inserted[0];
-        });
+        const { data: newOrder, error: insertError } = await sql
+          .from('rj45_orders')
+          .insert({ name, quantity })
+          .select()
+          .single();
+        
+        if (insertError) throw insertError;
 
         return new Response(JSON.stringify(newOrder), { status: 201 });
       } catch (e: unknown) {
-        if (e instanceof Error && e.message === 'Insufficient Stock') {
-             return new Response(JSON.stringify({ error: 'Not enough stock available' }), { status: 400 });
-        }
+        console.error('Order creation error:', e);
         throw e;
       }
     }
@@ -58,17 +56,12 @@ export default async (req: Request) => {
 
     // GET request: Fetch all orders for the dashboard
     if (req.method === 'GET') {
-      try {
-          await sql`ALTER TABLE rj45_orders ADD COLUMN IF NOT EXISTS status BOOLEAN DEFAULT false`;
-          await sql`UPDATE rj45_orders SET status = false WHERE status IS NULL`;
-      } catch (e) {
-          console.error("DB alter error (safe to ignore if already applied):", e);
-      }
+      const { data: orders, error } = await sql
+        .from('rj45_orders')
+        .select('*')
+        .order('created_at', { ascending: false });
       
-      const orders = await sql`
-        SELECT * FROM rj45_orders
-        ORDER BY created_at DESC
-      `;
+      if (error) throw error;
       return new Response(JSON.stringify(orders), { status: 200 });
     }
 
@@ -80,12 +73,12 @@ export default async (req: Request) => {
         return new Response(JSON.stringify({ error: 'Valid ID and Status are required' }), { status: 400 });
       }
 
-      await sql`
-        UPDATE rj45_orders
-        SET status = ${status}
-        WHERE id = ${id}
-      `;
+      const { error } = await sql
+        .from('rj45_orders')
+        .update({ status })
+        .eq('id', id);
       
+      if (error) throw error;
       return new Response(JSON.stringify({ message: 'Order status updated successfully' }), { status: 200 });
     }
 
@@ -97,11 +90,12 @@ export default async (req: Request) => {
         return new Response(JSON.stringify({ error: 'ID is required' }), { status: 400 });
       }
 
-      await sql`
-        DELETE FROM rj45_orders
-        WHERE id = ${id}
-      `;
+      const { error } = await sql
+        .from('rj45_orders')
+        .delete()
+        .eq('id', id);
       
+      if (error) throw error;
       return new Response(JSON.stringify({ message: 'Order deleted successfully' }), { status: 200 });
     }
 

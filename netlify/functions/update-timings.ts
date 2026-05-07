@@ -14,14 +14,17 @@ export const handler: Handler = async (event) => {
     }
 
     // Update the episode with new timings
-    await sql`
-      UPDATE episodes SET
-        intro_start = ${intro_start || 0},
-        intro_end = ${intro_end || 0},
-        outro_start = ${outro_start || 0},
-        outro_end = ${outro_end || 0}
-      WHERE id = ${episode_id}
-    `;
+    const { error } = await sql
+      .from('episodes')
+      .update({
+        intro_start: intro_start || 0,
+        intro_end: intro_end || 0,
+        outro_start: outro_start || 0,
+        outro_end: outro_end || 0
+      })
+      .eq('id', episode_id);
+
+    if (error) throw error;
 
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
   } catch (error) {

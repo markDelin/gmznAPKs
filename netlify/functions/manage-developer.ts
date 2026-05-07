@@ -13,41 +13,33 @@ export const handler: Handler = async (event) => {
     try {
         // GET
         if (event.httpMethod === 'GET') {
-            try {
-                const data = await sql`SELECT * FROM public.developer_profile LIMIT 1`;
-                return { statusCode: 200, headers, body: JSON.stringify(data[0] || {}) };
-            } catch (err: unknown) {
-                // If the table does not exist, an error is thrown. 
-                // Return an empty object gracefully.
-                if (err && typeof err === 'object' && 'code' in err && (err as {code: string}).code === '42P01') { // PostgreSQL error code for undefined_table
-                     return { statusCode: 200, headers, body: JSON.stringify({}) };
-                }
-                throw err;
+            const { data, error } = await sql.from('developer_profile').select('*').limit(1).maybeSingle();
+            if (error) {
+                // Return an empty object gracefully if error (e.g. table not found)
+                return { statusCode: 200, headers, body: JSON.stringify({}) };
             }
+            return { statusCode: 200, headers, body: JSON.stringify(data || {}) };
         }
 
         // POST/PUT (Update basically)
         const body = JSON.parse(event.body || '{}');
+        const { name, bio, avatar_url, role, social_links } = body;
         
-        // Lazy Migration: Ensure table exists only when writing
-        await sql`
-          CREATE TABLE IF NOT EXISTS public.developer_profile (
-            id SERIAL PRIMARY KEY,
-            name TEXT NOT NULL,
-            bio TEXT,
-            avatar_url TEXT,
-            role TEXT,
-            social_links JSONB DEFAULT '{}'::jsonb
-          );
-        `;
+        // Upsert approach: since we only have one profile, we can use a fixed ID if we want, 
+        // or just update the first one found.
+        const { data: existing } = await sql.from('developer_profile').select('id').limit(1).maybeSingle();
 
-        // Check if exists
-        const exists = await sql`SELECT id FROM public.developer_profile LIMIT 1`;
-
-        if (exists.length > 0) {
-            await sql`UPDATE public.developer_profile SET ${sql(body, 'name', 'bio', 'avatar_url', 'role', 'social_links')} WHERE id = ${exists[0].id}`;
+        if (existing) {
+            const { error } = await sql
+                .from('developer_profile')
+                .update({ name, bio, avatar_url, role, social_links })
+                .eq('id', existing.id);
+            if (error) throw error;
         } else {
-             await sql`INSERT INTO public.developer_profile ${sql(body, 'name', 'bio', 'avatar_url', 'role', 'social_links')}`;
+             const { error } = await sql
+                .from('developer_profile')
+                .insert({ name, bio, avatar_url, role, social_links });
+             if (error) throw error;
         }
 
         return { statusCode: 200, headers, body: JSON.stringify({ message: 'Profile Updated' }) };

@@ -11,17 +11,18 @@ export default async (req: Request, context: Context) => {
 
   try {
     if (id) {
-      const idNum = parseInt(id);
-      const anime = await sql`SELECT * FROM anime WHERE id = ${idNum}`;
-      if (anime.length === 0) {
+      const { data: anime, error } = await sql.from('anime').select('*').eq('id', id).single();
+      if (error || !anime) {
         return new Response(JSON.stringify({ error: 'Anime not found' }), { status: 404 });
       }
-      return new Response(JSON.stringify(anime[0]), {
+      return new Response(JSON.stringify(anime), {
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    const animeList = await sql`SELECT * FROM anime ORDER BY created_at DESC`;
+    const { data: animeList, error } = await sql.from('anime').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+
     return new Response(JSON.stringify(animeList), {
       headers: { 'Content-Type': 'application/json' },
     });

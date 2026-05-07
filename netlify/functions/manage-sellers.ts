@@ -12,7 +12,8 @@ export default async (req: Request) => {
 
     try {
         if (req.method === 'GET') {
-            const sellers = await sql`SELECT id, username, created_at FROM sellers ORDER BY created_at DESC`;
+            const { data: sellers, error } = await sql.from('sellers').select('id, username, created_at').order('created_at', { ascending: false });
+            if (error) throw error;
             return new Response(JSON.stringify(sellers), { status: 200 });
         }
 
@@ -21,17 +22,24 @@ export default async (req: Request) => {
             if (!username || !passkey) return new Response(JSON.stringify({ error: 'Username and passkey required' }), { status: 400 });
 
             // Check if exists
-            const existing = await sql`SELECT id FROM sellers WHERE username = ${username}`;
-            if (existing.length > 0) return new Response(JSON.stringify({ error: 'Username already taken' }), { status: 400 });
+            const { data: existing } = await sql.from('sellers').select('id').eq('username', username).maybeSingle();
+            if (existing) return new Response(JSON.stringify({ error: 'Username already taken' }), { status: 400 });
 
-            const newSeller = await sql`INSERT INTO sellers (username, passkey) VALUES (${username}, ${passkey}) RETURNING id, username, created_at`;
-            return new Response(JSON.stringify(newSeller[0]), { status: 201 });
+            const { data: newSeller, error } = await sql
+                .from('sellers')
+                .insert({ username, passkey })
+                .select('id, username, created_at')
+                .single();
+            
+            if (error) throw error;
+            return new Response(JSON.stringify(newSeller), { status: 201 });
         }
 
         if (req.method === 'DELETE') {
             const { id } = await req.json();
             if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400 });
-            await sql`DELETE FROM sellers WHERE id = ${id}`;
+            const { error } = await sql.from('sellers').delete().eq('id', id);
+            if (error) throw error;
             return new Response(JSON.stringify({ success: true }), { status: 200 });
         }
 

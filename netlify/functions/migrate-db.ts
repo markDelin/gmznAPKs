@@ -1,6 +1,7 @@
-import sql from './utils/db';
+import postgres from 'postgres';
 
 export default async () => {
+  const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
   try {
     console.log('Migrating database...');
     
@@ -105,6 +106,8 @@ export default async () => {
         created_at timestamp with time zone default timezone('utc'::text, now()) not null
       );
     `;
+
+    await sql.end();
 
     return new Response(JSON.stringify({ message: 'Migration complete! Table created.' }), {
       status: 200,

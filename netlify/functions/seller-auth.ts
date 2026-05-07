@@ -11,13 +11,18 @@ export default async (req: Request) => {
         const { username, passkey } = await req.json();
         if (!username || !passkey) return new Response(JSON.stringify({ error: 'Missing credentials' }), { status: 400 });
 
-        const sellers = await sql`SELECT id, username FROM sellers WHERE username = ${username} AND passkey = ${passkey}`;
+        const { data: seller, error } = await sql
+            .from('sellers')
+            .select('id, username')
+            .eq('username', username)
+            .eq('passkey', passkey)
+            .maybeSingle();
         
-        if (sellers.length === 0) {
+        if (error || !seller) {
             return new Response(JSON.stringify({ error: 'Invalid credentials' }), { status: 401 });
         }
 
-        return new Response(JSON.stringify({ success: true, seller: sellers[0] }), { status: 200 });
+        return new Response(JSON.stringify({ success: true, seller }), { status: 200 });
     } catch (e: unknown) {
         console.error('Seller Auth Error:', e);
         return new Response(JSON.stringify({ error: 'Server Error' }), { status: 500 });

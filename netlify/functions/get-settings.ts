@@ -12,10 +12,11 @@ export default async (req: Request) => {
     }
 
     try {
-        const settings = await sql`SELECT key, value, description FROM system_settings`;
+        const { data: settings, error } = await sql.from('system_settings').select('key, value, description');
+        if (error) throw error;
         
         // Convert array to object for easier frontend access
-        const settingsObj = settings.reduce((acc, curr) => {
+        const settingsObj = settings.reduce((acc: any, curr: any) => {
             acc[curr.key] = curr.value;
             return acc;
         }, {} as Record<string, string>);

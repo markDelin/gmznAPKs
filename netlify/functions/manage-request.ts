@@ -11,12 +11,14 @@ export default async (req: Request) => {
     const { id, action } = await req.json(); // action: 'delete', 'complete'
 
     if (action === 'delete') {
-      await sql`DELETE FROM app_requests WHERE id = ${id}`;
+      const { error } = await sql.from('app_requests').delete().eq('id', id);
+      if (error) throw error;
       return new Response(JSON.stringify({ message: 'Request deleted' }), { status: 200 });
     }
 
     if (action === 'complete') {
-        await sql`UPDATE app_requests SET status = 'completed' WHERE id = ${id}`;
+        const { error } = await sql.from('app_requests').update({ status: 'completed' }).eq('id', id);
+        if (error) throw error;
         return new Response(JSON.stringify({ message: 'Request marked as completed' }), { status: 200 });
     }
 

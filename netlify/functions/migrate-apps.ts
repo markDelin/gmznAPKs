@@ -1,6 +1,7 @@
-import sql from './utils/db';
+import postgres from 'postgres';
 
 export default async (req: Request) => {
+  const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require' });
 
   try {
     console.log('Migrating apps table to add is_hidden...');
@@ -9,6 +10,8 @@ export default async (req: Request) => {
       ALTER TABLE apps 
       ADD COLUMN IF NOT EXISTS is_hidden BOOLEAN DEFAULT FALSE;
     `;
+    
+    await sql.end();
 
     return new Response(JSON.stringify({ message: 'Migration complete! is_hidden column added to apps.' }), {
       status: 200,

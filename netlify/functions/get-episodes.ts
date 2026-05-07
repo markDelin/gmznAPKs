@@ -14,12 +14,14 @@ export default async (req: Request, context: Context) => {
   }
 
   try {
-    const idNum = parseInt(animeId);
-    const episodes = await sql`
-      SELECT * FROM episodes
-      WHERE anime_id = ${idNum}
-      ORDER BY season_number ASC, episode_number ASC
-    `;
+    const { data: episodes, error } = await sql
+      .from('episodes')
+      .select('*')
+      .eq('anime_id', animeId)
+      .order('season_number', { ascending: true })
+      .order('episode_number', { ascending: true });
+
+    if (error) throw error;
 
     return new Response(JSON.stringify(episodes), {
       headers: { 'Content-Type': 'application/json' },

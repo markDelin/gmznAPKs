@@ -11,24 +11,28 @@ export default async (req: Request) => {
             const url = new URL(req.url);
             const sellerId = url.searchParams.get('sellerId');
             
+            let query = sql
+                .from('sellable_products')
+                .select(`
+                    *,
+                    seller_name:sellers(username)
+                `)
+                .order('created_at', { ascending: false });
+
             if (sellerId) {
-                const products = await sql`
-                    SELECT sp.*, s.username as seller_name 
-                    FROM sellable_products sp 
-                    JOIN sellers s ON sp.seller_id = s.id 
-                    WHERE sp.seller_id = ${sellerId}
-                    ORDER BY sp.created_at DESC
-                `;
-                return new Response(JSON.stringify(products), { status: 200 });
-            } else {
-                const products = await sql`
-                    SELECT sp.*, s.username as seller_name 
-                    FROM sellable_products sp 
-                    JOIN sellers s ON sp.seller_id = s.id 
-                    ORDER BY sp.created_at DESC
-                `;
-                return new Response(JSON.stringify(products), { status: 200 });
+                query = query.eq('seller_id', sellerId);
             }
+
+            const { data: products, error } = await query;
+            if (error) throw error;
+
+            // Flatten seller_name from join result
+            const flattenedProducts = products.map((p: any) => ({
+                ...p,
+                seller_name: p.seller_name?.username
+            }));
+
+            return new Response(JSON.stringify(flattenedProducts), { status: 200 });
         }
 
         // All other methods require Seller ID header
@@ -39,12 +43,14 @@ export default async (req: Request) => {
             const { name, description, price, stock, category, image_url } = await req.json();
             if (!name || price === undefined || stock === undefined) return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 });
 
-            const newProduct = await sql`
-                INSERT INTO sellable_products (seller_id, name, description, price, stock, category, image_url)
-                VALUES (${sellerId}, ${name}, ${description}, ${price}, ${stock}, ${category}, ${image_url})
-                RETURNING *
-            `;
-            return new Response(JSON.stringify(newProduct[0]), { status: 201 });
+            const { data: newProduct, error } = await sql
+                .from('sellable_products')
+                .insert({ seller_id: sellerId, name, description, price, stock, category, image_url })
+                .select()
+                .single();
+            
+            if (error) throw error;
+            return new Response(JSON.stringify(newProduct), { status: 201 });
         }
 
         if (req.method === 'PUT') {
@@ -52,26 +58,42 @@ export default async (req: Request) => {
              if (!id) return new Response(JSON.stringify({ error: 'Product ID required' }), { status: 400 });
              
              // Ensure seller owns product
-             const product = await sql`SELECT id FROM sellable_products WHERE id = ${id} AND seller_id = ${sellerId}`;
-             if (product.length === 0) return new Response(JSON.stringify({ error: 'Unauthorized or not found' }), { status: 403 });
+             const { data: product, error: fetchError } = await sql
+                .from('sellable_products')
+                .select('id')
+                .eq('id', id)
+                .eq('seller_id', sellerId)
+                .single();
 
-             const updated = await sql`
-                UPDATE sellable_products
-                SET name = ${name}, description = ${description}, price = ${price}, stock = ${stock}, category = ${category}, image_url = ${image_url}
-                WHERE id = ${id}
-                RETURNING *
-             `;
-             return new Response(JSON.stringify(updated[0]), { status: 200 });
+             if (fetchError || !product) return new Response(JSON.stringify({ error: 'Unauthorized or not found' }), { status: 403 });
+
+             const { data: updated, error: updateError } = await sql
+                .from('sellable_products')
+                .update({ name, description, price, stock, category, image_url })
+                .eq('id', id)
+                .select()
+                .single();
+
+             if (updateError) throw updateError;
+             return new Response(JSON.stringify(updated), { status: 200 });
         }
 
         if (req.method === 'DELETE') {
              const { id } = await req.json();
              if (!id) return new Response(JSON.stringify({ error: 'Product ID required' }), { status: 400 });
              
-             const product = await sql`SELECT id FROM sellable_products WHERE id = ${id} AND seller_id = ${sellerId}`;
-             if (product.length === 0) return new Response(JSON.stringify({ error: 'Unauthorized or not found' }), { status: 403 });
+             const { data: product, error: fetchError } = await sql
+                .from('sellable_products')
+                .select('id')
+                .eq('id', id)
+                .eq('seller_id', sellerId)
+                .single();
 
-             await sql`DELETE FROM sellable_products WHERE id = ${id}`;
+             if (fetchError || !product) return new Response(JSON.stringify({ error: 'Unauthorized or not found' }), { status: 403 });
+
+             const { error: deleteError } = await sql.from('sellable_products').delete().eq('id', id);
+             if (deleteError) throw deleteError;
+             
              return new Response(JSON.stringify({ success: true }), { status: 200 });
         }
 

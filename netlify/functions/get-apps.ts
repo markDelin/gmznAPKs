@@ -9,12 +9,15 @@ export default async (req: Request) => {
   const isAdmin = adminPassword === process.env.ADMIN_PASSWORD;
 
   try {
-    let apps;
-    if (isAdmin) {
-        apps = await sql`SELECT * FROM apps ORDER BY created_at DESC`;
-    } else {
-        apps = await sql`SELECT * FROM apps WHERE is_hidden = FALSE OR is_hidden IS NULL ORDER BY created_at DESC`;
+    let query = sql.from('apps').select('*').order('created_at', { ascending: false });
+    
+    if (!isAdmin) {
+        query = query.or('is_hidden.eq.false,is_hidden.is.null');
     }
+
+    const { data: apps, error } = await query;
+
+    if (error) throw error;
 
     return new Response(JSON.stringify(apps), {
       headers: { 'Content-Type': 'application/json' },

@@ -12,10 +12,11 @@ export default async (req: Request) => {
       return new Response(JSON.stringify({ error: 'Username and App Name are required' }), { status: 400 });
     }
 
-    await sql`
-      INSERT INTO app_requests (username, app_name)
-      VALUES (${username}, ${app_name})
-    `;
+    const { error } = await sql
+      .from('app_requests')
+      .insert({ username, app_name });
+
+    if (error) throw error;
 
     return new Response(JSON.stringify({ message: 'Request submitted successfully' }), { status: 201 });
   } catch (error) {

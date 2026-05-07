@@ -16,16 +16,17 @@ export const handler: Handler = async (event) => {
 
     try {
         // Fetch distinct unit models that are not empty, limiting to recent 50 for performance
-        const data = await sql`
-            SELECT DISTINCT unit_model 
-            FROM public.repair_requests 
-            WHERE unit_model != '' 
-            ORDER BY unit_model ASC
-            LIMIT 50
-        `;
+        const { data, error } = await sql
+            .from('repair_requests')
+            .select('unit_model')
+            .neq('unit_model', '')
+            .order('unit_model', { ascending: true })
+            .limit(100); // Fetch more to account for duplicates
+
+        if (error) throw error;
         
-        // Extract just the strings
-        const models = data.map(row => row.unit_model);
+        // Extract just the unique strings
+        const models = Array.from(new Set(data.map((row: any) => row.unit_model))).slice(0, 50);
 
         return { 
             statusCode: 200, 

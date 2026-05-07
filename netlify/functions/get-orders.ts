@@ -8,12 +8,13 @@ export default async (req: Request, context: Context) => {
     }
 
     // Fetch the 15 most recent orders
-    const orders = await sql`
-      SELECT id, name, quantity, created_at
-      FROM rj45_orders
-      ORDER BY created_at DESC
-      LIMIT 15
-    `;
+    const { data: orders, error } = await sql
+      .from('rj45_orders')
+      .select('id, name, quantity, created_at')
+      .order('created_at', { ascending: false })
+      .limit(15);
+
+    if (error) throw error;
 
     // Anonymize names
     const anonymizedOrders = orders.map(order => {

@@ -17,37 +17,37 @@ export const handler: Handler = async (event) => {
              return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid type parameter. Must be "softwares" or "tutorials".' }) };
         }
 
-        const table = type === 'softwares' ? sql`public.softwares` : sql`public.tutorials`;
+        const tableName = type === 'softwares' ? 'softwares' : 'tutorials';
 
         // GET
         if (event.httpMethod === 'GET') {
-            const data = await sql`SELECT * FROM ${table} ORDER BY created_at DESC`;
+            const { data, error } = await sql.from(tableName).select('*').order('created_at', { ascending: false });
+            if (error) throw error;
             return { statusCode: 200, headers, body: JSON.stringify(data) };
         }
 
         // Protected Methods
         const adminPassword = event.headers['x-admin-password'];
         // Simple auth check (in production use real auth)
-        if (!adminPassword) { // Add actual password check logic if needed via env or db
-             // For now assuming the client sends the correct password if they are authorized
-             // Realistically we should verify it against DB or Env. 
-             // Currently Dashboard.tsx stores it in localStorage.
+        if (!adminPassword || adminPassword !== process.env.ADMIN_PASSWORD) { 
+             // Return 401 if unauthorized
+             // return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
         }
 
         const body = JSON.parse(event.body || '{}');
 
         if (event.httpMethod === 'POST') {
+            let insertData = {};
             if (type === 'softwares') {
-                const safeBody = {
+                insertData = {
                     name: body.name ?? '',
                     description: body.description ?? null,
                     icon_url: body.icon_url ?? null,
                     download_url: body.download_url ?? '',
                     category: body.category ?? 'Utility'
                 };
-                await sql`INSERT INTO public.softwares ${sql(safeBody, 'name', 'description', 'icon_url', 'download_url', 'category')}`;
             } else {
-                const safeBody = {
+                insertData = {
                     title: body.title ?? '',
                     description: body.description ?? null,
                     thumbnail_url: body.thumbnail_url ?? null,
@@ -55,25 +55,26 @@ export const handler: Handler = async (event) => {
                     category: body.category ?? 'General',
                     duration: body.duration ?? '00:00'
                 };
-                await sql`INSERT INTO public.tutorials ${sql(safeBody, 'title', 'description', 'thumbnail_url', 'video_url', 'category', 'duration')}`;
             }
+            const { error } = await sql.from(tableName).insert(insertData);
+            if (error) throw error;
             return { statusCode: 200, headers, body: JSON.stringify({ message: 'Created' }) };
         }
 
         if (event.httpMethod === 'PUT') {
             if (!body.id) return { statusCode: 400, headers, body: JSON.stringify({ error: 'ID required' }) };
             
+            let updateData = {};
             if (type === 'softwares') {
-                const safeBody = {
+                updateData = {
                     name: body.name ?? '',
                     description: body.description ?? null,
                     icon_url: body.icon_url ?? null,
                     download_url: body.download_url ?? '',
                     category: body.category ?? 'Utility'
                 };
-                await sql`UPDATE public.softwares SET ${sql(safeBody, 'name', 'description', 'icon_url', 'download_url', 'category')} WHERE id = ${body.id}`;
             } else {
-                 const safeBody = {
+                updateData = {
                     title: body.title ?? '',
                     description: body.description ?? null,
                     thumbnail_url: body.thumbnail_url ?? null,
@@ -81,14 +82,16 @@ export const handler: Handler = async (event) => {
                     category: body.category ?? 'General',
                     duration: body.duration ?? '00:00'
                 };
-                 await sql`UPDATE public.tutorials SET ${sql(safeBody, 'title', 'description', 'thumbnail_url', 'video_url', 'category', 'duration')} WHERE id = ${body.id}`;
             }
+            const { error } = await sql.from(tableName).update(updateData).eq('id', body.id);
+            if (error) throw error;
             return { statusCode: 200, headers, body: JSON.stringify({ message: 'Updated' }) };
         }
 
         if (event.httpMethod === 'DELETE') {
             if (!body.id) return { statusCode: 400, headers, body: JSON.stringify({ error: 'ID required' }) };
-            await sql`DELETE FROM ${table} WHERE id = ${body.id}`;
+            const { error } = await sql.from(tableName).delete().eq('id', body.id);
+            if (error) throw error;
             return { statusCode: 200, headers, body: JSON.stringify({ message: 'Deleted' }) };
         }
 

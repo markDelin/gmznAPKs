@@ -12,52 +12,56 @@ export default async (req: Request) => {
 
     if (req.method === 'POST') {
       const { name, version, size, category, download_url, icon_url, whats_new, description, tags, previous_versions, is_pinned, is_hidden } = data;
-      await sql`
-        INSERT INTO apps (name, version, size, category, download_url, icon_url, whats_new, description, tags, previous_versions, is_pinned, is_hidden)
-        VALUES (
-          ${name ?? ''}, 
-          ${version ?? ''}, 
-          ${size ?? ''}, 
-          ${category ?? 'Tools'}, 
-          ${download_url ?? ''}, 
-          ${icon_url ?? null}, 
-          ${whats_new ?? null}, 
-          ${description ?? null}, 
-          ${tags ?? []}, 
-          ${JSON.stringify(previous_versions ?? [])}, 
-          ${is_pinned ?? false},
-          ${is_hidden ?? false}
-        )
-      `;
+      const { error } = await sql
+        .from('apps')
+        .insert({
+          name: name ?? '', 
+          version: version ?? '', 
+          size: size ?? '', 
+          category: category ?? 'Tools', 
+          download_url: download_url ?? '', 
+          icon_url: icon_url ?? null, 
+          whats_new: whats_new ?? null, 
+          description: description ?? null, 
+          tags: tags ?? [], 
+          previous_versions: previous_versions ?? [], 
+          is_pinned: is_pinned ?? false,
+          is_hidden: is_hidden ?? false
+        });
+      
+      if (error) throw error;
       return new Response(JSON.stringify({ message: 'App added' }), { status: 201 });
     }
 
     if (req.method === 'PUT') {
       const { id, name, version, size, category, download_url, icon_url, whats_new, description, tags, previous_versions, is_pinned, is_hidden } = data;
       
-      await sql`
-        UPDATE apps 
-        SET 
-          name = ${name ?? ''}, 
-          version = ${version ?? ''}, 
-          size = ${size ?? ''}, 
-          category = ${category ?? 'Tools'}, 
-          download_url = ${download_url ?? ''}, 
-          icon_url = ${icon_url ?? null},
-          whats_new = ${whats_new ?? null},
-          description = ${description ?? null},
-          tags = ${tags ?? []},
-          previous_versions = ${JSON.stringify(previous_versions ?? [])},
-          is_pinned = ${is_pinned ?? false},
-          is_hidden = ${is_hidden ?? false}
-        WHERE id = ${id}
-      `;
+      const { error } = await sql
+        .from('apps')
+        .update({ 
+          name: name ?? '', 
+          version: version ?? '', 
+          size: size ?? '', 
+          category: category ?? 'Tools', 
+          download_url: download_url ?? '', 
+          icon_url: icon_url ?? null,
+          whats_new: whats_new ?? null,
+          description: description ?? null,
+          tags: tags ?? [],
+          previous_versions: previous_versions ?? [],
+          is_pinned: is_pinned ?? false,
+          is_hidden: is_hidden ?? false
+        })
+        .eq('id', id);
+
+      if (error) throw error;
       return new Response(JSON.stringify({ message: 'App updated' }), { status: 200 });
     }
 
     if (req.method === 'DELETE') {
       const { id } = data;
-      await sql`DELETE FROM apps WHERE id = ${id}`;
+      const { error } = await sql.from('apps').delete().eq('id', id);
+      if (error) throw error;
       return new Response(JSON.stringify({ message: 'App deleted' }), { status: 200 });
     }
     
