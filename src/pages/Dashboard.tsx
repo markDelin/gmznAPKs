@@ -626,22 +626,48 @@ export default function Dashboard() {
 
     setTmdbLoading(true);
 
+    MySwal.fire({
+      title: '',
+      padding: 0,
+      showConfirmButton: false,
+      background: 'transparent',
+      allowOutsideClick: false,
+      html: (
+        <div className="bg-[#1a1a1a] p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl w-[90vw] max-w-sm mx-auto text-center">
+          <div className="w-12 h-12 border-4 border-[#ff6b44] border-t-transparent rounded-full animate-spin mx-auto mb-5" />
+          <h3 className="text-lg font-black text-white mb-2">Discovering Episodes</h3>
+          <p className="text-gray-500 text-sm font-medium" id="tmdb-progress">Searching TMDB for "{selectedAnime.title}"...</p>
+          <div className="mt-5 h-2 bg-white/10 rounded-full overflow-hidden">
+            <div id="tmdb-progress-bar" className="h-full bg-gradient-to-r from-[#ff6b44] to-purple-500 rounded-full transition-all" style={{ width: '0%' }} />
+          </div>
+        </div>
+      )
+    });
+
     try {
       const res = await fetch(`/api/tmdb-episodes?q=${encodeURIComponent(selectedAnime.title)}`);
       if (!res.ok) throw new Error('TMDB search failed');
 
       const tmdbData = await res.json();
       const existingEps = new Set(episodes.map(e => `${e.season_number || 1}-${e.episode_number}`));
+      const seasonEpisodes = tmdbData.seasons.flatMap((s: { season_number: number; episodes: any[] }) =>
+        s.episodes.map((ep: any) => ({ ...ep, season_number: s.season_number }))
+      );
+      const totalToProcess = seasonEpisodes.filter((ep: any) => !existingEps.has(`${ep.season_number}-${ep.episode_number}`)).length;
+      const totalToSkip = seasonEpisodes.length - totalToProcess;
       let created = 0;
-      let skipped = 0;
+      let processed = 0;
+
+      const progressEl = document.getElementById('tmdb-progress');
+      const barEl = document.getElementById('tmdb-progress-bar');
 
       for (const season of tmdbData.seasons) {
         for (const ep of season.episodes) {
           const key = `${season.season_number}-${ep.episode_number}`;
-          if (existingEps.has(key)) {
-            skipped++;
-            continue;
-          }
+          if (existingEps.has(key)) continue;
+
+          if (progressEl) progressEl.textContent = `Creating Episode ${ep.episode_number} (Season ${season.season_number})...`;
+          if (barEl && totalToProcess > 0) barEl.style.width = `${Math.round((processed / totalToProcess) * 100)}%`;
 
           const embedUrl = `https://ezvidapi.com/embed/tv/${tmdbData.tmdb_id}/${season.season_number}/${ep.episode_number}`;
           const body: Partial<Episode> = {
@@ -660,21 +686,24 @@ export default function Dashboard() {
 
           const ok = await apiAction('/api/manage-episode', 'POST', body, () => {}, '', true);
           if (ok) created++;
+          processed++;
         }
       }
 
       await fetchEpisodes(selectedAnime.id);
       fetchAnime();
 
+      Swal.close();
       MySwal.fire({
         icon: created > 0 ? 'success' : 'info',
         title: `${created} Episodes Created`,
-        text: `${skipped} already exist${created > 0 ? `. Open the Watch page to auto-fetch video sources.` : ''}`,
+        text: `${totalToSkip} already exist${created > 0 ? `. Open the Watch page to auto-fetch video sources.` : ''}`,
         background: '#1a1a1a',
         color: '#fff',
         confirmButtonColor: '#ff6b44'
       });
     } catch (err: unknown) {
+      Swal.close();
       const msg = err instanceof Error ? err.message : 'Failed to discover episodes';
       MySwal.fire({ icon: 'error', title: 'TMDB Discovery Failed', text: msg, background: '#1a1a1a', color: '#fff', confirmButtonColor: '#d33' });
     } finally {
