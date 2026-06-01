@@ -26,4 +26,11 @@ dist-ssr
 # Netlify
 .netlify
 .vercel
-.env*.local
+
+# Environment files (secrets)
+.env
+.env.local
+.env.*.local
+
+# Tool config
+.opencode/

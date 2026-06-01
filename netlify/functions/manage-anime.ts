@@ -1,11 +1,14 @@
 import sql from './utils/db';
+import { handleOptions, corsHeaders } from './utils/cors';
 
 export default async (req: Request) => {
-  const headers = { 'Content-Type': 'application/json' };
+  const optionsRes = handleOptions(req);
+  if (optionsRes) return optionsRes;
+
   const adminPassword = req.headers.get('x-admin-password');
 
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers });
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
   }
 
   try {
@@ -20,11 +23,11 @@ export default async (req: Request) => {
         .single();
       
       if (error) throw error;
-      return new Response(JSON.stringify(data), { status: 201, headers });
+      return new Response(JSON.stringify(data), { status: 201, headers: corsHeaders });
     }
 
     if (req.method === 'PUT') {
-      if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400, headers });
+      if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400, headers: corsHeaders });
       const { data, error } = await sql
         .from('anime')
         .update({ title, description, cover_image, banner_image, genre, status, rating, total_episodes })
@@ -33,19 +36,19 @@ export default async (req: Request) => {
         .single();
       
       if (error) throw error;
-      return new Response(JSON.stringify(data), { headers });
+      return new Response(JSON.stringify(data), { status: 200, headers: corsHeaders });
     }
 
     if (req.method === 'DELETE') {
-      if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400, headers });
+      if (!id) return new Response(JSON.stringify({ error: 'ID required' }), { status: 400, headers: corsHeaders });
       const { error } = await sql.from('anime').delete().eq('id', id);
       if (error) throw error;
-      return new Response(JSON.stringify({ message: 'Deleted' }), { headers });
+      return new Response(JSON.stringify({ message: 'Deleted' }), { status: 200, headers: corsHeaders });
     }
 
-    return new Response('Method Not Allowed', { status: 405 });
+    return new Response('Method Not Allowed', { status: 405, headers: corsHeaders });
   } catch (error) {
     console.error('Error managing anime:', error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500, headers });
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500, headers: corsHeaders });
   }
 };
