@@ -67,7 +67,7 @@ A modern, streaming-focused web platform for browsing, discovering, and watching
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/gmzn-anime.git
+git clone https://github.com/markDelin/gmznAPKS.git
 cd gmzn-anime
 
 # Install dependencies
